@@ -7,6 +7,7 @@
   --dark-text: #333333;
   --white: #ffffff;
 }
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -70,4 +71,56 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: #f8f9fa; /* Light background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.navbar-brand:hover {
+  color: #0056b3;
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23000000" viewBox="0 0 30 30"%3E%3Cpath stroke="rgba(33, 37, 41, 1)" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+}
+
+/* Navbar Links */
+.nav-link {
+  font-size: 1rem;
+  color: #333;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #007bff; /* Primary blue */
+}
+
+.nav-link.disabled {
+  color: #ccc;
+}
+
+/* Mobile Behavior */
+@media (max-width: 992px) {
+  .navbar-brand {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .navbar-toggler {
+    margin-left: auto;
+  }
 }

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const path = require("path");
+const expressLayouts = require("express-ejs-layouts");
 
 //load env variables
 dotenv.config();
@@ -23,6 +24,13 @@ app.use(cookieParser());
 
 // Set view engine
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Use express-ejs-layouts
+app.use(expressLayouts);
+
+// Set the default layout
+app.set("layout", "layout");
 
 // Routes
 app.use("/", indexRoutes);

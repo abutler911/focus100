@@ -3,15 +3,15 @@ const router = express.Router();
 const authenticateToken = require("../middleware/auth");
 
 router.get("/", (req, res) => {
-  res.render("login", { title: "Focus100 Login" });
+  res.render("login", { title: "Login - Focus100" });
 });
 
 router.get("/register", (req, res) => {
-  res.render("register", { title: "Focus100 Register" });
+  res.render("register", { title: "Register - Focus100" });
 });
 
 router.get("/dashboard", authenticateToken, (req, res) => {
-  res.render("dashboard", { title: "Dashboard", user: req.user });
+  res.render("dashboard", { title: "Dashboard - Focus100", user: req.user });
 });
 
 module.exports = router;

@@ -18,3 +18,33 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   color: #333;
 }
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body h5 {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.list-group-item {
+  font-size: 1.1rem;
+  padding: 10px 15px;
+}
+
+.btn-primary,
+.btn-secondary {
+  margin-right: 10px;
+}
+
+.container h1 {
+  color: #333;
+}
+
+.container p.lead {
+  color: #555;
+}

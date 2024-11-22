@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <h1 class="text-center">Your Daily Logs</h1>
+  <% if (logs.length === 0) { %>
+  <p class="text-center">
+    No logs found. <a href="/dailylog/new">Add your first log!</a>
+  </p>
+  <% } else { %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Cardio (min)</th>
+        <th>Pushups</th>
+        <th>Situps</th>
+        <th>Savings ($)</th>
+        <th>No Alcohol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.forEach(log => { %>
+      <tr>
+        <td><%= new Date(log.date).toLocaleDateString() %></td>
+        <td><%= log.cardio %></td>
+        <td><%= log.pushups %></td>
+        <td><%= log.situps %></td>
+        <td><%= log.savings %></td>
+        <td><%= log.noAlcohol ? "Yes" : "No" %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>

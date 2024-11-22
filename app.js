@@ -12,6 +12,7 @@ dotenv.config();
 // Import routes
 const indexRoutes = require("./routes/index");
 const apiRoutes = require("./routes/api");
+const dailylogRoutes = require("./routes/dailylog");
 
 //Init express app
 const app = express();
@@ -35,6 +36,7 @@ app.set("layout", "layout");
 // Routes
 app.use("/", indexRoutes);
 app.use("/api", apiRoutes);
+app.use("/dailylog", dailylogRoutes);
 
 // Connect to DB
 const connectDB = require("./config/db");

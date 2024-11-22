@@ -1,0 +1,55 @@
+<div class="container mt-5">
+  <h1 class="text-center">Add Daily Log</h1>
+  <form action="/dailylog/new" method="POST">
+    <div class="mb-3">
+      <label for="cardio" class="form-label">Cardio (minutes):</label>
+      <input
+        type="number"
+        id="cardio"
+        name="cardio"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="pushups" class="form-label">Pushups:</label>
+      <input
+        type="number"
+        id="pushups"
+        name="pushups"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="situps" class="form-label">Situps:</label>
+      <input
+        type="number"
+        id="situps"
+        name="situps"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="savings" class="form-label">Savings ($):</label>
+      <input
+        type="number"
+        id="savings"
+        name="savings"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="form-check mb-3">
+      <input
+        type="checkbox"
+        id="noAlcohol"
+        name="noAlcohol"
+        class="form-check-input"
+      />
+      <label for="noAlcohol" class="form-check-label">No Alcohol Today</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Submit Log</button>
+  </form>
+</div>

@@ -19,7 +19,7 @@
     <tbody>
       <% logs.forEach(log => { %>
       <tr>
-        <td><%= new Date(log.date).toLocaleDateString() %></td>
+        <td><%= new Date(log.date).toLocaleDateString("en-US") %></td>
         <td><%= log.cardio %></td>
         <td><%= log.pushups %></td>
         <td><%= log.situps %></td>

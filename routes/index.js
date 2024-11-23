@@ -20,12 +20,26 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
     const userId = req.user._id;
     const logs = await Dailylog.find({ userId });
 
+    // Calculate the current date and days since/remaining until January 1, 2025
+    const startDate = new Date("2025-01-01");
+    const currentDate = new Date();
+    const daysDifference = Math.floor(
+      (currentDate - startDate) / (1000 * 60 * 60 * 24)
+    );
+
+    // Determine whether it's days until or days since
+    const isPast = daysDifference >= 0;
+    const days = Math.abs(daysDifference); // Always use absolute value
+
     if (logs.length === 0) {
       return res.render("dashboard", {
         title: "Dashboard - Focus100",
         user: req.user,
         totals: { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 },
         message: "You haven't added any logs yet. Start tracking today!",
+        currentDate: currentDate.toDateString(),
+        days,
+        isPast,
       });
     }
 
@@ -46,6 +60,9 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       title: "Dashboard",
       user: req.user,
       totals,
+      currentDate: currentDate.toDateString(),
+      days,
+      isPast,
     });
   } catch (err) {
     console.error(err);

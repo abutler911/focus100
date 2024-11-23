@@ -27,7 +27,7 @@
 }
 
 .card-body h5 {
-  color: #007bff;
+  color: #2b6945;
   font-weight: bold;
 }
 
@@ -42,9 +42,100 @@
 }
 
 .container h1 {
-  color: #333;
+  color: #ffffff;
 }
 
 .container p.lead {
-  color: #555;
+  color: #ffffff;
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: #318543;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 1.5rem;
+  font-size: 1.25rem;
+}
+
+/* Custom Buttons */
+.btn.custom-btn {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn.custom-btn:hover {
+  background-color: #45a049; /* Darker Green */
+}
+
+.btn.logout-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn.logout-btn:hover {
+  background-color: #d32f2f; /* Darker Red */
+}
+
+/* Centered Text */
+.text-center {
+  text-align: center;
+}
+
+/* Totals Section */
+.row .col-md-4 {
+  margin-bottom: 20px;
+}
+
+/* Page Header */
+h1 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.alert {
+  border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+header,
+nav {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+}
+
+footer p {
+  font-size: 0.8rem;
+}
+
+.nav-link {
+  color: #000;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
 }

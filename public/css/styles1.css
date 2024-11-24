@@ -147,19 +147,16 @@ footer p {
 
 /* Card styling */
 .card {
-  border: none;
   border-radius: 15px;
   background: #ffffff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Slight reduction in padding */
 }
 
-/* Button styling */
+/* Reduce button padding on mobile */
 .btn-login {
-  background: linear-gradient(90deg, #6a11cb, #2575fc);
-  border: none;
-  color: white;
-  font-weight: bold;
-  transition: all 0.3s ease-in-out;
+  font-size: 1rem;
+  padding: 0.8rem; /* Adjust button padding for smaller screens */
 }
 
 .btn-login:hover {
@@ -167,11 +164,10 @@ footer p {
   background: linear-gradient(90deg, #2575fc, #6a11cb);
 }
 
-/* Input field styling */
+/* Adjust input field height */
 .form-control {
-  border-radius: 25px;
-  border: 1px solid #ddd;
-  transition: border-color 0.3s ease-in-out;
+  height: 40px;
+  font-size: 0.9rem; /* Slightly smaller font for inputs */
 }
 
 .form-control:focus {

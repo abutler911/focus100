@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
+const errorHandler = require("./middleware/errorHandler");
 
 //load env variables
 dotenv.config();
@@ -37,6 +38,21 @@ app.set("layout", "layout");
 app.use("/", indexRoutes);
 app.use("/api", apiRoutes);
 app.use("/dailylog", dailylogRoutes);
+
+app.use((req, res, next) => {
+  const error = new Error("Page not found");
+  error.status = 404;
+  next(error);
+});
+
+app.get("/error", (req, res, next) => {
+  const error = new Error("This is a TEST error");
+  error.status = 400;
+  next(error);
+});
+
+// Error handler
+app.use(errorHandler);
 
 // Connect to DB
 const connectDB = require("./config/db");

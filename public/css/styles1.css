@@ -150,29 +150,35 @@ footer p {
   border-radius: 15px;
   background: #ffffff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Slight reduction in padding */
+  padding: 20px;
 }
 
-/* Reduce button padding on mobile */
 .btn-login {
+  background: linear-gradient(90deg, #43cea2, #185a9d);
+  border: none;
+  color: white;
+  font-weight: bold;
   font-size: 1rem;
-  padding: 0.8rem; /* Adjust button padding for smaller screens */
+  padding: 0.8rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .btn-login:hover {
+  background: linear-gradient(90deg, #185a9d, #43cea2);
   transform: scale(1.05);
-  background: linear-gradient(90deg, #2575fc, #6a11cb);
 }
-
 /* Adjust input field height */
 .form-control {
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
   height: 40px;
-  font-size: 0.9rem; /* Slightly smaller font for inputs */
+  transition: border-color 0.3s ease-in-out;
 }
 
 .form-control:focus {
-  border-color: #6a11cb;
-  box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
+  border-color: #43cea2;
+  box-shadow: 0 0 8px rgba(67, 206, 162, 0.2);
 }
 
 /* Link styling */
@@ -198,5 +204,16 @@ a.text-decoration-none:hover {
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    margin-top: 10px; /* Reduces space from the top */
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.4rem; /* Slightly smaller header for small screens */
   }
 }

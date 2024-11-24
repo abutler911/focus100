@@ -139,3 +139,68 @@ footer p {
 .nav-link:hover {
   color: #007bff;
 }
+
+.login-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styling */
+.btn-login {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  border: none;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-login:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #2575fc, #6a11cb);
+}
+
+/* Input field styling */
+.form-control {
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
+}
+
+/* Link styling */
+a.text-decoration-none {
+  color: #6a11cb;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+a.text-decoration-none:hover {
+  color: #2575fc;
+}
+
+/* Subtle floating animation for the card */
+.card {
+  animation: float 4s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

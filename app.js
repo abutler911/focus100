@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const errorHandler = require("./middleware/errorHandler");
+const methodOverride = require("method-override");
 
 //load env variables
 dotenv.config();
@@ -14,6 +15,7 @@ dotenv.config();
 const indexRoutes = require("./routes/index");
 const apiRoutes = require("./routes/api");
 const dailylogRoutes = require("./routes/dailylog");
+const profileRoutes = require("./routes/profile");
 
 //Init express app
 const app = express();
@@ -23,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
+app.use(methodOverride("_method"));
 
 // Set view engine
 app.set("view engine", "ejs");
@@ -38,6 +41,7 @@ app.set("layout", "layout");
 app.use("/", indexRoutes);
 app.use("/api", apiRoutes);
 app.use("/dailylog", dailylogRoutes);
+app.use("/profile", profileRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Page not found");

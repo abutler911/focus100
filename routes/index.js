@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../middleware/auth");
 const Dailylog = require("../models/Dailylog");
+const User = require("../models/User");
 
 router.get("/", (req, res) => {
   res.render("splash", { title: "Welcome to Focus100", layout: false });
@@ -18,6 +19,7 @@ router.get("/register", (req, res) => {
 router.get("/dashboard", authenticateToken, async (req, res) => {
   try {
     const userId = req.user._id;
+    const user = await User.findById(userId); // Fetch the user to access their goals
     const logs = await Dailylog.find({ userId });
 
     // Calculate the current date and days since/remaining until January 1, 2025
@@ -31,11 +33,20 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
     const isPast = daysDifference >= 0;
     const days = Math.abs(daysDifference); // Always use absolute value
 
+    // If no logs, show default totals and message
     if (logs.length === 0) {
       return res.render("dashboard", {
         title: "Dashboard - Focus100",
-        user: req.user,
+        user,
         totals: { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 },
+        progress: {
+          cardio: 0,
+          pushups: 0,
+          situps: 0,
+          savings: 0,
+          noAlcohol: false,
+        },
+        goals: user.goals || {},
         message: "You haven't added any logs yet. Start tracking today!",
         currentDate: currentDate.toDateString(),
         days,
@@ -43,7 +54,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       });
     }
 
-    // Calculate totals
+    // Calculate totals from logs
     const totals = logs.reduce(
       (acc, log) => {
         acc.cardio += log.cardio;
@@ -56,10 +67,26 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 }
     );
 
+    // Calculate progress toward goals
+    const goals = user.goals || {};
+    const progress = {
+      cardio: Math.min((totals.cardio / (goals.cardio || 1)) * 100, 100), // Avoid division by 0
+      pushups: Math.min((totals.pushups / (goals.pushups || 1)) * 100, 100),
+      situps: Math.min((totals.situps / (goals.situps || 1)) * 100, 100),
+      savings: Math.min((totals.savings / (goals.savings || 1)) * 100, 100),
+      noAlcohol: goals.noAlcohol
+        ? totals.noAlcohol === logs.length
+          ? 100
+          : 0
+        : null, // All days alcohol-free
+    };
+
     res.render("dashboard", {
-      title: "Dashboard",
-      user: req.user,
+      title: "Dashboard - Focus100",
+      user,
       totals,
+      progress,
+      goals,
       currentDate: currentDate.toDateString(),
       days,
       isPast,

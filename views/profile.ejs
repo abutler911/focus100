@@ -1,54 +1,86 @@
 <div class="container mt-5">
-  <h1 class="text-center">Your Profile</h1>
-  <form action="/profile/goals" method="POST">
-    <h2>Set Your 100-Day Goals</h2>
-    <div class="form-group">
-      <label for="cardioGoal">Cardio Goal (minutes):</label>
-      <input
-        type="number"
-        id="cardioGoal"
-        name="cardioGoal"
-        class="form-control"
-        value="<%= user.goals.cardio %>"
-      />
+  <!-- Profile Header -->
+  <div class="text-center mb-4">
+    <h1>Your Profile</h1>
+    <p class="lead">Update your 100-day goals below.</p>
+  </div>
+
+  <!-- Goals Form -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Set Your 100-Day Goals</h2>
+      <form action="/profile/goals" method="POST">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="cardioGoal" class="form-label"
+              >Cardio Goal (minutes):</label
+            >
+            <input
+              type="number"
+              id="cardioGoal"
+              name="cardioGoal"
+              class="form-control"
+              value="<%= user.goals.cardio %>"
+              placeholder="Enter cardio goal"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="pushupsGoal" class="form-label">Pushups Goal:</label>
+            <input
+              type="number"
+              id="pushupsGoal"
+              name="pushupsGoal"
+              class="form-control"
+              value="<%= user.goals.pushups %>"
+              placeholder="Enter pushups goal"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="situpsGoal" class="form-label">Situps Goal:</label>
+            <input
+              type="number"
+              id="situpsGoal"
+              name="situpsGoal"
+              class="form-control"
+              value="<%= user.goals.situps %>"
+              placeholder="Enter situps goal"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="savingsGoal" class="form-label"
+              >Savings Goal ($):</label
+            >
+            <input
+              type="number"
+              id="savingsGoal"
+              name="savingsGoal"
+              class="form-control"
+              value="<%= user.goals.savings %>"
+              placeholder="Enter savings goal"
+            />
+          </div>
+          <div class="col-12 mb-3">
+            <div class="form-check">
+              <input type="checkbox" id="noAlcoholGoal" name="noAlcoholGoal"
+              class="form-check-input" <%= user.goals.noAlcohol ? "checked" : ""
+              %> />
+              <label for="noAlcoholGoal" class="form-check-label">
+                No Alcohol for 100 Days
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg mt-3">
+            Save Goals
+          </button>
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="pushupsGoal">Pushups Goal:</label>
-      <input
-        type="number"
-        id="pushupsGoal"
-        name="pushupsGoal"
-        class="form-control"
-        value="<%= user.goals.pushups %>"
-      />
-    </div>
-    <div class="form-group">
-      <label for="situpsGoal">Situps Goal:</label>
-      <input
-        type="number"
-        id="situpsGoal"
-        name="situpsGoal"
-        class="form-control"
-        value="<%= user.goals.situps %>"
-      />
-    </div>
-    <div class="form-group">
-      <label for="savingsGoal">Savings Goal ($):</label>
-      <input
-        type="number"
-        id="savingsGoal"
-        name="savingsGoal"
-        class="form-control"
-        value="<%= user.goals.savings %>"
-      />
-    </div>
-    <div class="form-group form-check">
-      <input type="checkbox" id="noAlcoholGoal" name="noAlcoholGoal"
-      class="form-check-input" <%= user.goals.noAlcohol ? "checked" : "" %>>
-      <label for="noAlcoholGoal" class="form-check-label"
-        >No Alcohol for 100 Days</label
-      >
-    </div>
-    <button type="submit" class="btn btn-primary">Save Goals</button>
-  </form>
+  </div>
+
+  <!-- Profile Actions -->
+  <div class="text-center mt-4">
+    <a href="/dashboard" class="btn btn-secondary btn-sm">Back to Dashboard</a>
+  </div>
 </div>

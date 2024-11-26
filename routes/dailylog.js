@@ -97,7 +97,7 @@ router.put("/:id", authenticateToken, async (req, res) => {
       situps: parseInt(situps, 10) || 0,
       savings: parseFloat(savings) || 0,
       noAlcohol: noAlcohol === "on",
-      date: parsedDate, // Ensure a valid Date object is saved
+      date: parsedDate,
     };
 
     const log = await Dailylog.findOneAndUpdate(

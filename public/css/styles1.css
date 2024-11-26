@@ -217,3 +217,144 @@ a.text-decoration-none:hover {
     font-size: 1.4rem; /* Slightly smaller header for small screens */
   }
 }
+
+.create-post-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.create-post-form .form-group {
+  margin-bottom: 20px;
+}
+
+.create-post-form .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.create-post-form .btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-post-form .btn:hover {
+  background-color: #0056b3;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff; /* Twitter-like blue */
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Forum Container */
+.forum-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff; /* White background for contrast */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* Titles */
+.forum-title {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+/* Post Cards */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between cards */
+}
+
+.post-card {
+  background-color: #f9f9fb; /* Slightly off-white */
+  border: 1px solid #ddd; /* Light border */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for cards */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-card:hover {
+  transform: translateY(-3px); /* Lift effect on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+}
+
+/* Post Title */
+.post-title {
+  font-size: 1.2em;
+  margin: 0 0 5px;
+}
+
+.post-link {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.post-link:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+/* Post Metadata */
+.post-meta {
+  font-size: 0.9em;
+  color: #666; /* Subtle gray */
+}
+
+.post-author {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* No Posts Message */
+.no-posts-message {
+  font-size: 1em;
+  color: #888;
+  text-align: center;
+}
+
+.create-post-link {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: translateY(-3px); /* Subtle lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
+  transition: all 0.2s ease-in-out;
+}
+
+a.text-primary:hover {
+  text-decoration: underline;
+}
+
+.posts-list {
+  max-width: 800px;
+  margin: auto; /* Center the posts list */
+}

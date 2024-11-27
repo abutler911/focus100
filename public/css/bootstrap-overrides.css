@@ -1,0 +1,21 @@
+/* Buttons */
+.btn-primary {
+  background-color: #ff5733 !important; /* Custom orange */
+  border-color: #ff5733 !important;
+}
+
+.btn-primary:hover {
+  background-color: #e0461e !important;
+}
+
+/* Cards */
+.card {
+  border-radius: 10px; /* Rounder corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar */
+.navbar {
+  background-color: #007bff; /* Change navbar color */
+  border-bottom: 3px solid #0056b3;
+}

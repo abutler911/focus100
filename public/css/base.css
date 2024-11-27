@@ -1,0 +1,25 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global body styles */
+body {
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  color: #333;
+  background-color: #f8f9fa; /* Light gray background */
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  color: #007bff; /* Bootstrap primary color */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

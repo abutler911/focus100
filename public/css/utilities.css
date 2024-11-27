@@ -1,0 +1,43 @@
+/* Spacing */
+.u-mt-10 {
+  margin-top: 10px;
+}
+.u-mb-10 {
+  margin-bottom: 10px;
+}
+.u-pt-10 {
+  padding-top: 10px;
+}
+.u-pb-10 {
+  padding-bottom: 10px;
+}
+
+/* Text alignment */
+.u-text-center {
+  text-align: center;
+}
+.u-text-right {
+  text-align: right;
+}
+.u-text-left {
+  text-align: left;
+}
+
+/* Visibility */
+.u-hidden {
+  display: none;
+}
+.u-inline-block {
+  display: inline-block;
+}
+
+/* Flex utilities */
+.u-flex {
+  display: flex;
+}
+
+.u-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

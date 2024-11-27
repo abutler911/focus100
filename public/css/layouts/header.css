@@ -1,0 +1,21 @@
+.header {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  padding: 15px 20px;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+.header__nav a:hover {
+  text-decoration: underline;
+}

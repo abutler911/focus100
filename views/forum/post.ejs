@@ -1,0 +1,65 @@
+<div class="post-container container my-5">
+  <h1 class="post-title"><%= post.title %></h1>
+  <p class="post-meta">
+    Posted by <strong><%= post.author.username %></strong> • <%= new
+    Date(post.createdAt).toLocaleString() %>
+  </p>
+  <hr />
+  <div class="post-content">
+    <p><%= post.content %></p>
+  </div>
+
+  <% if (isAuthor) { %>
+  <div class="post-actions mt-4 d-flex justify-content-center gap-3">
+    <a href="/forum/posts/<%= post._id %>/edit" class="btn btn-warning px-4"
+      >Edit</a
+    >
+    <form
+      action="/forum/posts/<%= post._id %>/delete"
+      method="POST"
+      style="display: inline"
+    >
+      <button class="btn btn-danger px-4">Delete</button>
+    </form>
+  </div>
+  <% } %>
+
+  <hr />
+
+  <section class="comments">
+    <h2>Comments</h2>
+    <% if (post.comments.length > 0) { %> <% post.comments.forEach(comment => {
+    %>
+    <div class="comment mb-4 p-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <p>
+          <strong><%= comment.author.username %></strong>
+          <span class="text-muted small">
+            • <%= new Date(comment.createdAt).toLocaleString() %>
+          </span>
+        </p>
+      </div>
+      <p class="mt-2"><%= comment.content %></p>
+    </div>
+    <% }); %> <% } else { %>
+    <p class="no-comments text-center text-muted mt-3">
+      No comments yet. Be the first to comment!
+    </p>
+    <% } %>
+  </section>
+
+  <% if (user) { %>
+  <section class="add-comment mt-5">
+    <form action="/forum/posts/<%= post._id %>/comment" method="POST">
+      <textarea
+        name="content"
+        rows="3"
+        class="form-control mb-3"
+        placeholder="Add a comment..."
+        required
+      ></textarea>
+      <button class="btn btn-primary w-100">Submit Comment</button>
+    </form>
+  </section>
+  <% } %>
+</div>

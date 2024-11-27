@@ -29,7 +29,6 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Vote Section */
 .forum-votes {
   display: flex;
   flex-direction: column;
@@ -44,14 +43,27 @@
 .vote-btn {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
   color: #888;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s;
 }
 
 .vote-btn:hover {
   color: #1579ab;
+  transform: scale(1.2); /* Slight zoom effect on hover */
+}
+
+.vote-btn:focus {
+  outline: none;
+}
+
+.vote-btn.upvote:hover {
+  color: #2c6e49; /* Dark green for thumbs up */
+}
+
+.vote-btn.downvote:hover {
+  color: #d9534f; /* Red for thumbs down */
 }
 
 .votes-count {

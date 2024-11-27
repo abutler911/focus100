@@ -1,0 +1,30 @@
+<div class="edit-post-container container my-5">
+  <h1>Edit Post</h1>
+  <form action="/forum/posts/<%= post._id %>/edit" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        value="<%= post.title %>"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="content" class="form-label">Content</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="5"
+        class="form-control"
+        required
+      >
+<%= post.content %></textarea
+      >
+    </div>
+    <button class="btn btn-success">Save Changes</button>
+    <a href="/forum/posts/<%= post._id %>" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>

@@ -1,0 +1,137 @@
+/* Container */
+.post-container {
+  background: linear-gradient(to bottom, #fefefe, #f4f4f4);
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+}
+
+/* Title */
+.post-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.8rem;
+  color: #2c6e49;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Post Metadata */
+.post-meta {
+  font-size: 0.85rem;
+  color: #6c757d;
+  text-align: center;
+}
+
+/* Horizontal Rules */
+.post-container hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+/* Post Content */
+.post-content p {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.8;
+  text-align: justify;
+  margin-bottom: 30px;
+}
+
+/* Post Actions (Edit/Delete) */
+.post-actions .btn-warning {
+  background-color: #ffc107;
+  border: none;
+}
+
+.post-actions .btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.post-actions .btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.post-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Comments Section */
+.comments {
+  margin-top: 50px;
+}
+
+.comments h2 {
+  font-size: 1.8rem;
+  color: #2c6e49;
+  border-bottom: 2px solid #d68c45;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  font-family: "Playfair Display", serif;
+}
+
+/* Individual Comment */
+.comment {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.comment:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.comment p {
+  margin: 0 0 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.comment strong {
+  font-weight: bold;
+  color: #1579ab;
+}
+
+.comment .text-muted {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+/* Add Comment Section */
+.add-comment {
+  margin-top: 40px;
+}
+
+.add-comment textarea {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.add-comment textarea:focus {
+  border-color: #1579ab;
+  box-shadow: 0 0 6px rgba(21, 121, 171, 0.4);
+}
+
+.add-comment button {
+  background-color: #1579ab;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-comment button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}

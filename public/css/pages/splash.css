@@ -1,0 +1,84 @@
+:root {
+  --green-dark: #2c6e49;
+  --blue-bright: #1579ab;
+  --cream-light: #fefee3;
+  --peach-light: #ffc9b9;
+  --brown-warm: #d68c45;
+}
+
+.splash-page {
+  height: 100vh;
+  background-image: url("/images/splash-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: white;
+}
+
+.splash-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+}
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.splash-title {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.splash-subtitle {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.custom-btn {
+  background-color: var(--brown-warm);
+  color: white;
+  border-radius: 50px;
+  padding: 15px 30px;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  min-width: 150px;
+  text-align: center;
+}
+
+.custom-btn:hover,
+.custom-btn:focus {
+  background-color: #9fa5ff;
+  transform: translateY(-2px);
+}
+
+.custom-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

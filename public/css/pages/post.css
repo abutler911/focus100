@@ -32,9 +32,9 @@
 /* Post Content */
 .post-content p {
   font-family: "Noto Sans", sans-serif;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   color: #333;
-  line-height: 1.8;
+  line-height: 1.2;
   text-align: justify;
   margin-bottom: 30px;
 }
@@ -134,4 +134,38 @@
 .add-comment button:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
+}
+
+/* Create Post Button */
+.btn-create-post {
+  background: orange;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 50%;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-create-post:hover {
+  background: rgb(182, 34, 228);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-create-post:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .btn-create-post {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
 }

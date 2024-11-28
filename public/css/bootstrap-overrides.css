@@ -16,6 +16,5 @@
 
 /* Navbar */
 .navbar {
-  background-color: #007bff; /* Change navbar color */
-  border-bottom: 3px solid #0056b3;
+  background-color: #cbe0d6 !important;
 }

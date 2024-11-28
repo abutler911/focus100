@@ -1,37 +1,43 @@
-<div class="d-flex justify-content-center align-items-start vh-100">
-  <div class="card shadow-lg p-3 w-100 mx-2" style="max-width: 600px">
-    <h1 class="text-center mb-3" style="font-size: 1.8rem">Login</h1>
-    <form action="/api/login" method="POST">
-      <div class="mb-2">
-        <label for="username" class="form-label">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          class="form-control rounded-pill"
-          required
-        />
-      </div>
-      <div class="mb-2">
-        <label for="password" class="form-label">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="form-control rounded-pill"
-          required
-        />
-      </div>
-      <button
-        type="submit"
-        class="btn btn-primary w-100 rounded-pill py-2 mt-3 btn-login"
-      >
-        Login
-      </button>
-    </form>
-    <p class="mt-3 text-center">
-      Don't have an account?
-      <a href="/register" class="text-decoration-none">Register here</a>
-    </p>
+<div class="vh-100 d-flex flex-column">
+  <!-- Main Content -->
+  <div class="flex-grow-1 d-flex justify-content-center align-items-start">
+    <div
+      class="card shadow-lg p-3 w-100 mx-2"
+      style="max-width: 400px; margin-top: 10px"
+    >
+      <h1 class="text-center mb-3" style="font-size: 1.8rem">Login</h1>
+      <form action="/api/login" method="POST">
+        <div class="mb-2">
+          <label for="username" class="form-label">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-control rounded-pill"
+            required
+          />
+        </div>
+        <div class="mb-2">
+          <label for="password" class="form-label">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control rounded-pill"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary w-100 rounded-pill py-2 mt-3 btn-login"
+        >
+          Login
+        </button>
+      </form>
+      <p class="mt-3 text-center">
+        Don't have an account?
+        <a href="/register" class="text-decoration-none">Register here</a>
+      </p>
+    </div>
   </div>
 </div>

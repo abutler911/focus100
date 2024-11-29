@@ -17,6 +17,27 @@ router.get("/", authenticateToken, async (req, res) => {
   }
 });
 
+// POST: Update User Information
+router.post("/update", authenticateToken, async (req, res) => {
+  try {
+    const { firstname, lastname, email, state, country } = req.body;
+
+    // Update user details
+    await User.findByIdAndUpdate(req.user._id, {
+      firstname,
+      lastname,
+      email,
+      state,
+      country,
+    });
+
+    res.redirect("/profile");
+  } catch (err) {
+    console.error("Error updating user information:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
 // POST: Update Goals in Profile
 router.post("/goals", authenticateToken, async (req, res) => {
   try {

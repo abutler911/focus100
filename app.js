@@ -17,6 +17,7 @@ const apiRoutes = require("./routes/api");
 const dailylogRoutes = require("./routes/dailylog");
 const profileRoutes = require("./routes/profile");
 const forumRoutes = require("./routes/forum");
+const savingsRoutes = require("./routes/savings");
 
 //Init express app
 const app = express();
@@ -44,6 +45,7 @@ app.use("/api", apiRoutes);
 app.use("/dailylog", dailylogRoutes);
 app.use("/profile", profileRoutes);
 app.use("/forum", forumRoutes);
+app.use("/savings", savingsRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Page not found");

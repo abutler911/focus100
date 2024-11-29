@@ -2,10 +2,81 @@
   <!-- Profile Header -->
   <div class="text-center mb-4">
     <h1>Your Profile</h1>
-    <p class="lead">Update your 100-day goals below.</p>
+    <p class="lead">Manage your information and 100-day goals below.</p>
   </div>
 
-  <!-- Goals Form -->
+  <!-- Personal Information Section -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Personal Information</h2>
+      <form action="/profile/update" method="POST">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="firstname" class="form-label">First Name:</label>
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              class="form-control"
+              value="<%= user.firstname %>"
+              placeholder="Enter your first name"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="lastname" class="form-label">Last Name:</label>
+            <input
+              type="text"
+              id="lastname"
+              name="lastname"
+              class="form-control"
+              value="<%= user.lastname %>"
+              placeholder="Enter your last name"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              value="<%= user.email %>"
+              placeholder="Enter your email"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="state" class="form-label">State:</label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              class="form-control"
+              value="<%= user.state %>"
+              placeholder="Enter your state"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="country" class="form-label">Country:</label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              class="form-control"
+              value="<%= user.country %>"
+              placeholder="Enter your country"
+            />
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success btn-lg mt-3">
+            Save Information
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Goals Section -->
   <div class="card shadow-sm mb-5">
     <div class="card-body">
       <h2 class="card-title text-center mb-4">Set Your 100-Day Goals</h2>
@@ -71,7 +142,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-lg mt-3">
+          <button type="submit" class="btn btn-success btn-lg mt-3">
             Save Goals
           </button>
         </div>

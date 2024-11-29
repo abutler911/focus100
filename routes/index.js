@@ -3,6 +3,7 @@ const router = express.Router();
 const authenticateToken = require("../middleware/auth");
 const Dailylog = require("../models/Dailylog");
 const User = require("../models/User");
+const Savings = require("../models/Savings");
 
 router.get("/", (req, res) => {
   res.render("splash", { title: "Welcome to Focus100", layout: false });
@@ -21,6 +22,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
     const userId = req.user._id;
     const user = await User.findById(userId); // Fetch the user to access their goals
     const logs = await Dailylog.find({ userId });
+    const savingsEntries = await Savings.find({ userId }); // Fetch savings entries
 
     // Calculate the current date and days since/remaining until January 1, 2025
     const startDate = new Date("2025-01-01");
@@ -33,8 +35,8 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
     const isPast = daysDifference >= 0;
     const days = Math.abs(daysDifference); // Always use absolute value
 
-    // If no logs, show default totals and message
-    if (logs.length === 0) {
+    // If no logs or savings entries, show default totals and message
+    if (logs.length === 0 && savingsEntries.length === 0) {
       return res.render("dashboard", {
         title: "Dashboard - Focus100",
         user,
@@ -67,6 +69,13 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 }
     );
 
+    // Add totals from savings entries
+    const savingsTotal = savingsEntries.reduce(
+      (sum, entry) => sum + entry.amount,
+      0
+    );
+    totals.savings += savingsTotal;
+
     // Calculate progress toward goals
     const goals = user.goals || {};
     const progress = {
@@ -92,7 +101,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       isPast,
     });
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching dashboard data:", err);
     res.status(500).send("Server Error");
   }
 });

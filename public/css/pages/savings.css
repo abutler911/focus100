@@ -1,0 +1,31 @@
+.days-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  padding: 10px;
+}
+
+.day {
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.day:hover {
+  transform: scale(1.1);
+}
+
+.progress-bar {
+  background-color: #4caf50;
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .saving-box {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+}

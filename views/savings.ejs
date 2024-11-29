@@ -1,4 +1,40 @@
-<main class="container mt-5">
-  <h1 class="text-center mb-4">100-Day Savings Tracker</h1>
-  <p class="text-center">Track your progress here!</p>
-</main>
+<div class="container mt-5">
+  <header class="text-center">
+    <h1>100 Days Saving Challenge</h1>
+    <p class="lead">Total Saved: $<%= totalSaved %> out of $5050</p>
+    <div class="progress" id="progress-bar-container">
+      <div
+        id="progress-bar"
+        class="progress-bar"
+        role="progressbar"
+        style="width: <%= (savingsEntries.length / 100) * 100 %>%"
+        aria-valuenow="<%= (savingsEntries.length / 100) * 100 %>"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <span id="progress-percentage"
+          ><%= ((savingsEntries.length / 100) * 100).toFixed(0) %>%</span
+        >
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="saving-challenge">
+      <div class="days-container">
+        <% for (let i = 1; i <= 100; i++) { %> <% const savedEntry =
+        savingsEntries.find(entry => entry.day === i); %>
+        <button
+          class="day btn <%= savedEntry ? 'btn-success' : 'btn-light' %>"
+          data-day="<%= i %>"
+        >
+          $<%= i %> <%= savedEntry ? `(Saved)` : "" %>
+        </button>
+        <% } %>
+      </div>
+    </section>
+  </main>
+  <footer class="text-center">
+    <button id="reset-button" class="btn btn-danger mt-3">Reset</button>
+  </footer>
+</div>

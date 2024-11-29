@@ -68,7 +68,7 @@
             <div
               class="progress-bar bg-danger"
               role="progressbar"
-              style="width: <%= progress.situps %>%"
+              style="width: <%= progress.situps %>%%"
               aria-valuenow="<%= progress.situps %>"
               aria-valuemin="0"
               aria-valuemax="100"
@@ -132,6 +132,7 @@
             <h5 class="card-title">Savings</h5>
             <hr />
             <p class="display-6"><strong>$<%= totals.savings %></strong></p>
+            <a href="/savings" class="btn btn-primary">Go to Savings Tracker</a>
           </div>
         </div>
       </a>

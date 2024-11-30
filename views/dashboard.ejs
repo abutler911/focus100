@@ -12,18 +12,30 @@
   </div>
 
   <!-- Quick Actions Section -->
-  <div class="row justify-content-center mb-4">
-    <div class="col-6 col-md-3 mb-2">
-      <a href="/dailylog/new" class="btn btn-primary w-100">Add New Log</a>
-    </div>
-    <div class="col-6 col-md-3 mb-2">
-      <a href="/dailylog" class="btn btn-secondary w-100">View Logs</a>
-    </div>
-    <div class="col-6 col-md-3 mb-2">
-      <a href="/graphs" class="btn btn-info w-100">View Graphs</a>
-    </div>
-    <div class="col-6 col-md-3 mb-2">
-      <a href="/forum/main" class="btn btn-warning w-100">Message Board</a>
+  <div class="container mt-5">
+    <div class="button-group p-3 mb-4">
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-3 mb-2">
+          <a href="/dailylog/new" class="btn w-100 custom-btn">
+            <i class="bi bi-plus-circle"></i> New Log
+          </a>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <a href="/dailylog" class="btn w-100 custom-btn">
+            <i class="bi bi-journal-text"></i> Logs
+          </a>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <a href="/graphs" class="btn w-100 custom-btn">
+            <i class="bi bi-bar-chart"></i> Graphs
+          </a>
+        </div>
+        <div class="col-6 col-md-3 mb-2">
+          <a href="/forum/main" class="btn w-100 custom-btn">
+            <i class="bi bi-chat-dots"></i> Forum
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -127,12 +139,12 @@
     </div>
     <div class="col-6 col-md-4 mb-4">
       <a href="/savings" class="text-decoration-none">
-        <div class="card shadow-sm">
-          <div class="card-body">
+        <div class="card shadow-sm savings-card">
+          <div class="card-body text-center">
             <h5 class="card-title">Savings</h5>
             <hr />
             <p class="display-6"><strong>$<%= totals.savings %></strong></p>
-            <a href="/savings" class="btn btn-primary">Go to Savings Tracker</a>
+            <p class="text-muted small">Click to enter the Savings page</p>
           </div>
         </div>
       </a>

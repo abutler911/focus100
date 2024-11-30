@@ -1,25 +1,68 @@
-/* Primary button */
 .custom-btn {
-  background-color: #007bff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 50px;
+  background-color: #7caadc;
   color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-flex; /* Inline flex for natural button sizing */
+  align-items: center; /* Center-align icon and text vertically */
+  gap: 8px; /* Small space between icon and text */
+  min-width: 150px;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.custom-btn:hover {
-  background-color: #0056b3;
+.custom-btn:hover,
+.custom-btn:focus {
+  background-color: #9fa5ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Secondary button */
+.custom-btn i {
+  font-size: 1.2rem; /* Adjust icon size */
+}
+
+.custom-btn span {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.custom-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .custom-btn--secondary {
   background-color: #6c757d;
   color: white;
 }
 
-.custom-btn--secondary:hover {
+.custom-btn--secondary:hover,
+.custom-btn--secondary:focus {
   background-color: #5a6268;
+}
+
+.custom-btn--info {
+  background-color: #17a2b8;
+}
+
+.custom-btn--info:hover,
+.custom-btn--info:focus {
+  background-color: #138496;
+}
+
+.button-group {
+  border: 2px solid #9aafe2; /* Matches button color for consistency */
+  border-radius: 12px; /* Rounded corners for a clean look */
+  background-color: transparent;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+}
+
+.button-group .custom-btn {
+  margin-bottom: 5px;
 }

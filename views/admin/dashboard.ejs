@@ -1,0 +1,86 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="display-4 mb-4">Admin Dashboard</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Pending User Approvals Section -->
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="h5">Pending User Approvals</h3>
+        </div>
+        <div class="card-body">
+          <% if (pendingUsers.length === 0) { %>
+          <p class="text-muted">No users awaiting approval.</p>
+          <% } else { %>
+          <ul class="list-group">
+            <% pendingUsers.forEach(user => { %>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <strong><%= user.name %></strong>
+                <span class="text-muted">(<%= user.email %>)</span>
+              </div>
+              <form
+                action="/admin/approve/<%= user._id %>"
+                method="POST"
+                class="d-inline"
+              >
+                <button type="submit" class="btn btn-success btn-sm">
+                  Approve
+                </button>
+              </form>
+            </li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grant Admin Privileges Section -->
+    <div class="col-md-6 mt-5">
+      <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+          <h3 class="h5">Grant Admin Privileges</h3>
+        </div>
+        <div class="card-body">
+          <% if (allUsers.length === 0) { %>
+          <p class="text-muted">No users found.</p>
+          <% } else { %>
+          <ul class="list-group">
+            <% allUsers.forEach(user => { %>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <strong><%= user.name %></strong>
+                <span class="text-muted">(<%= user.email %>)</span>
+                <% if (user.isAdmin) { %>
+                <span class="badge bg-success ms-2">Admin</span>
+                <% } %>
+              </div>
+              <% if (!user.isAdmin) { %>
+              <form
+                action="/admin/grant-admin/<%= user._id %>"
+                method="POST"
+                class="d-inline"
+              >
+                <button type="submit" class="btn btn-secondary btn-sm">
+                  Grant Admin
+                </button>
+              </form>
+              <% } %>
+            </li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

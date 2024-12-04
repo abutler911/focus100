@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const isAdmin = require("../middleware/isAdmin");
 const router = express.Router();
 
 // Register User
@@ -97,7 +98,7 @@ router.post("/login", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { _id: user._id, firstname: user.firstname },
+      { _id: user._id, firstname: user.firstname, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );

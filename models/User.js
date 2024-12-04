@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   state: { type: String, required: true },
   country: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
+  approved: { type: Boolean, default: false },
   goals: {
     cardio: { type: Number, default: 0 },
     pushups: { type: Number, default: 0 },

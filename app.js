@@ -18,6 +18,7 @@ const dailylogRoutes = require("./routes/dailylog");
 const profileRoutes = require("./routes/profile");
 const forumRoutes = require("./routes/forum");
 const savingsRoutes = require("./routes/savings");
+const adminRoutes = require("./routes/admin");
 
 //Init express app
 const app = express();
@@ -39,6 +40,13 @@ app.use(expressLayouts);
 // Set the default layout
 app.set("layout", "layout");
 
+// Add user object to all views
+app.use((req, res, next) => {
+  res.locals.title = "Focus100";
+  res.locals.user = req.user || null;
+  next();
+});
+
 // Routes
 app.use("/", indexRoutes);
 app.use("/api", apiRoutes);
@@ -46,6 +54,7 @@ app.use("/dailylog", dailylogRoutes);
 app.use("/profile", profileRoutes);
 app.use("/forum", forumRoutes);
 app.use("/savings", savingsRoutes);
+app.use("/admin", adminRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Page not found");

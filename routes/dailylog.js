@@ -14,7 +14,11 @@ router.get("/new", authenticateToken, async (req, res) => {
   });
 
   console.log("Existing log found:", existingLog);
-  res.render("dailylog/new", { title: "New Log - Focus100", date: today });
+  res.render("dailylog/new", {
+    title: "New Log - Focus100",
+    date: today,
+    activePage: "dailylog",
+  });
 });
 
 router.post("/new", authenticateToken, async (req, res) => {

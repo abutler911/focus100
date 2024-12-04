@@ -6,15 +6,22 @@ const User = require("../models/User");
 const Savings = require("../models/Savings");
 
 router.get("/", (req, res) => {
-  res.render("splash", { title: "Welcome to Focus100", layout: false });
+  res.render("splash", {
+    title: "Welcome to Focus100",
+    layout: false,
+    activePage: "home",
+  });
 });
 
 router.get("/login", (req, res) => {
-  res.render("login", { title: "Login - Focus100" });
+  res.render("login", { title: "Login - Focus100", activePage: "login" });
 });
 
 router.get("/register", (req, res) => {
-  res.render("register", { title: "Register - Focus100" });
+  res.render("register", {
+    title: "Register - Focus100",
+    activePage: "register",
+  });
 });
 
 router.get("/dashboard", authenticateToken, async (req, res) => {

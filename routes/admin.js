@@ -15,6 +15,7 @@ router.get("/", authenticateToken, isAdmin, async (req, res) => {
       pendingUsers,
       allUsers,
       user: req.user,
+      activePage: "admin",
     });
   } catch (error) {
     console.error("Error fetching pending users:", error);

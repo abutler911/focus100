@@ -1,7 +1,9 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
   <div class="container-fluid">
     <!-- Navbar Brand -->
-    <a class="navbar-brand" href="/dashboard">Focus100</a>
+    <a class="navbar-brand fw-bold" href="/dashboard">
+      <i class="bi bi-lightning-charge-fill"></i> Focus100
+    </a>
 
     <!-- Hamburger Icon -->
     <button
@@ -20,24 +22,43 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/dashboard"
-            >Dashboard</a
+          <a
+            class="nav-link <%= activePage === 'dashboard' ? 'active' : '' %>"
+            href="/dashboard"
           >
+            <i class="bi bi-house-door"></i> Dashboard
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/profile">Profile</a>
+          <a
+            class="nav-link <%= activePage === 'profile' ? 'active' : '' %>"
+            href="/profile"
+          >
+            <i class="bi bi-person-circle"></i> Profile
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
+          <a
+            class="nav-link <%= activePage === 'settings' ? 'active' : '' %>"
+            href="#"
+          >
+            <i class="bi bi-gear-fill"></i> Settings
+          </a>
         </li>
         <% if (user && user.isAdmin) { %>
         <li class="nav-item">
-          <a class="nav-link" href="/admin">Admin</a>
+          <a
+            class="nav-link <%= activePage === 'admin' ? 'active' : '' %>"
+            href="/admin"
+          >
+            <i class="bi bi-shield-lock"></i> Admin
+          </a>
         </li>
-
         <% } %>
         <li class="nav-item">
-          <a class="nav-link" href="api/logout">Logout</a>
+          <a class="nav-link text-danger" href="api/logout">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
         </li>
       </ul>
     </div>

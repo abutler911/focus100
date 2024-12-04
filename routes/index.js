@@ -105,6 +105,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       currentDate: currentDate.toDateString(),
       days,
       isPast,
+      activePage: "dashboard",
     });
   } catch (err) {
     console.error("Error fetching dashboard data:", err);

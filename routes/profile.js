@@ -10,7 +10,11 @@ router.get("/", authenticateToken, async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
-    res.render("profile", { title: "Your Profile", user });
+    res.render("profile", {
+      title: "Your Profile",
+      user,
+      activePage: "profile",
+    });
   } catch (err) {
     console.error("Error fetching user profile:", err);
     res.status(500).send("Server Error");

@@ -1,163 +1,209 @@
 <div class="container mt-5">
   <!-- Welcome Section -->
-  <div class="text-center mb-4">
-    <h1 class="mb-2">Welcome, <%= user.firstname %>!</h1>
+  <header class="text-center mb-5">
+    <h1 class="display-4">Welcome, <%= user.firstname %>!</h1>
     <p class="lead">Today's Date: <strong><%= currentDate %></strong></p>
-    <p>
+    <p class="text-muted">
       <% if (isPast) { %> Days Since January 1, 2025:
       <strong><%= days %></strong> <% } else { %> Days Until January 1, 2025:
-      <strong><%= days %></strong>
-      <% } %>
+      <strong><%= days %></strong> <% } %>
     </p>
-  </div>
+  </header>
 
   <!-- Quick Actions Section -->
-  <div class="container mt-5">
-    <div class="button-group p-3 mb-4">
-      <div class="row justify-content-center">
-        <div class="col-6 col-md-3 mb-2">
-          <a href="/dailylog/new" class="btn w-100 custom-btn">
-            <i class="bi bi-plus-circle"></i> New Log
-          </a>
-        </div>
-        <div class="col-6 col-md-3 mb-2">
-          <a href="/dailylog" class="btn w-100 custom-btn">
-            <i class="bi bi-journal-text"></i> Logs
-          </a>
-        </div>
-        <div class="col-6 col-md-3 mb-2">
-          <a href="/graphs" class="btn w-100 custom-btn">
-            <i class="bi bi-bar-chart"></i> Graphs
-          </a>
-        </div>
-        <div class="col-6 col-md-3 mb-2">
-          <a href="/forum/main" class="btn w-100 custom-btn">
-            <i class="bi bi-chat-dots"></i> Forum
-          </a>
-        </div>
+  <section class="quick-actions mb-5">
+    <div class="row text-center">
+      <div class="col-6 col-md-3">
+        <a href="/dailylog/new" class="btn btn-primary btn-lg w-100 mb-3">
+          <i class="bi bi-plus-circle"></i> New Log
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/dailylog" class="btn btn-secondary btn-lg w-100 mb-3">
+          <i class="bi bi-journal-text"></i> Logs
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/graphs" class="btn btn-info btn-lg w-100 mb-3">
+          <i class="bi bi-bar-chart"></i> Graphs
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/forum/main" class="btn btn-success btn-lg w-100 mb-3">
+          <i class="bi bi-chat-dots"></i> Forum
+        </a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Goals Section -->
-  <div class="card shadow-sm mb-4">
-    <div class="card-body">
-      <h2 class="text-center mb-4">Your 100-Day Goals</h2>
-      <div class="row">
-        <div class="col-md-6">
-          <p>Cardio: <%= totals.cardio %> / <%= totalGoals.cardio %> minutes</p>
-          <div class="progress mb-3">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: <%= progress.cardio %>%"
-              aria-valuenow="<%= progress.cardio %>"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <%= progress.cardio.toFixed(0) %>%
+  <section class="goals-section mb-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="text-center mb-4">Your 100-Day Goals</h2>
+        <div class="row">
+          <!-- Cardio -->
+          <div class="col-md-6 mb-3">
+            <p class="mb-1">
+              Cardio: <strong><%= totals.cardio %></strong> /
+              <strong><%= totalGoals.cardio %></strong> minutes
+            </p>
+            <div class="progress">
+              <div
+                class="progress-bar bg-primary"
+                role="progressbar"
+                style="width: <%= progress.cardio %>%"
+                aria-valuenow="<%= progress.cardio %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <%= progress.cardio.toFixed(0) %>%
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <p>Pushups: <%= totals.pushups %> / <%= totalGoals.pushups %></p>
-          <div class="progress mb-3">
-            <div
-              class="progress-bar bg-success"
-              role="progressbar"
-              style="width: <%= progress.pushups %>%"
-              aria-valuenow="<%= progress.pushups %>"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <%= progress.pushups.toFixed(0) %>%
+
+          <!-- Pushups -->
+          <div class="col-md-6 mb-3">
+            <p class="mb-1">
+              Pushups: <strong><%= totals.pushups %></strong> /
+              <strong><%= totalGoals.pushups %></strong>
+            </p>
+            <div class="progress">
+              <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: <%= progress.pushups %>%"
+                aria-valuenow="<%= progress.pushups %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <%= progress.pushups.toFixed(0) %>%
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <p>Situps: <%= totals.situps %> / <%= totalGoals.situps %></p>
-          <div class="progress mb-3">
-            <div
-              class="progress-bar bg-danger"
-              role="progressbar"
-              style="width: <%= progress.situps %>%"
-              aria-valuenow="<%= progress.situps %>"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <%= progress.situps.toFixed(0) %>%
+
+          <!-- Situps -->
+          <div class="col-md-6 mb-3">
+            <p class="mb-1">
+              Situps: <strong><%= totals.situps %></strong> /
+              <strong><%= totalGoals.situps %></strong>
+            </p>
+            <div class="progress">
+              <div
+                class="progress-bar bg-danger"
+                role="progressbar"
+                style="width: <%= progress.situps %>%"
+                aria-valuenow="<%= progress.situps %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <%= progress.situps.toFixed(0) %>%
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <p>Savings: $<%= totals.savings %> / $<%= totalGoals.savings %></p>
-          <div class="progress mb-3">
-            <div
-              class="progress-bar bg-warning"
-              role="progressbar"
-              style="width: <%= progress.savings %>%"
-              aria-valuenow="<%= progress.savings %>"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              <%= progress.savings.toFixed(0) %>%
+
+          <!-- Savings -->
+          <div class="col-md-6 mb-3">
+            <p class="mb-1">
+              Savings: <strong>$<%= totals.savings %></strong> /
+              <strong>$<%= totalGoals.savings %></strong>
+            </p>
+            <div class="progress">
+              <div
+                class="progress-bar bg-warning"
+                role="progressbar"
+                style="width: <%= progress.savings %>%"
+                aria-valuenow="<%= progress.savings %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <%= progress.savings.toFixed(0) %>%
+              </div>
+            </div>
+          </div>
+
+          <!-- No Alcohol Days -->
+          <div class="col-md-6 mb-3">
+            <p class="mb-1">
+              No Alcohol Days: <strong><%= totals.noAlcohol %></strong> /
+              <strong>100</strong>
+            </p>
+            <div class="progress">
+              <div
+                class="progress-bar bg-dark"
+                role="progressbar"
+                style="width: <%= (totals.noAlcohol / 100) * 100 %>%"
+                aria-valuenow="<%= (totals.noAlcohol / 100) * 100 %>"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <%= ((totals.noAlcohol / 100) * 100).toFixed(0) %>%
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Summary Cards Section -->
-  <div class="row text-center">
-    <div class="col-6 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Cardio</h5>
-          <hr />
-          <p class="display-6"><strong><%= totals.cardio %> min</strong></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Pushups</h5>
-          <hr />
-          <p class="display-6"><strong><%= totals.pushups %></strong></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">Situps</h5>
-          <hr />
-          <p class="display-6"><strong><%= totals.situps %></strong></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <a href="/savings" class="text-decoration-none">
-        <div class="card shadow-sm savings-card">
-          <div class="card-body text-center">
-            <h5 class="card-title">Savings</h5>
+  <section class="summary-cards">
+    <div class="row row-cols-2 row-cols-md-4 g-4">
+      <!-- Card Template -->
+      <div class="col">
+        <div class="card text-center shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Cardio</h5>
             <hr />
-            <p class="display-6"><strong>$<%= totals.savings %></strong></p>
-            <p class="text-muted small">Click to enter the Savings page</p>
+            <p class="display-6"><strong><%= totals.cardio %> min</strong></p>
           </div>
         </div>
-      </a>
-    </div>
+      </div>
 
-    <div class="col-6 col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">No Alcohol Days</h5>
-          <hr />
-          <p class="display-6"><strong><%= totals.noAlcohol %></strong></p>
+      <div class="col">
+        <div class="card text-center shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Pushups</h5>
+            <hr />
+            <p class="display-6"><strong><%= totals.pushups %></strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card text-center shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Situps</h5>
+            <hr />
+            <p class="display-6"><strong><%= totals.situps %></strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <a href="/savings" class="text-decoration-none">
+          <div class="card text-center shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Savings</h5>
+
+              <hr />
+              <p class="display-6"><strong>$<%= totals.savings %></strong></p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col">
+        <div class="card text-center shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">No Alcohol</h5>
+            <hr />
+            <p class="display-6">
+              <strong><%= totals.noAlcohol %> Days</strong>
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>

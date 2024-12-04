@@ -4,26 +4,55 @@ const authenticateToken = require("../middleware/auth");
 const Dailylog = require("../models/Dailylog");
 
 // GET: Form to Add a New Log
-router.get("/new", authenticateToken, (req, res) => {
-  res.render("dailylog/new", { title: "Add Daily Log" });
+router.get("/new", authenticateToken, async (req, res) => {
+  const today = new Date().toISOString().split("T")[0];
+  console.log("Checking for existing log on:", today);
+
+  const existingLog = await Dailylog.findOne({
+    userId: req.user._id,
+    date: today,
+  });
+
+  console.log("Existing log found:", existingLog);
+  res.render("dailylog/new", { title: "New Log - Focus100", date: today });
 });
 
 router.post("/new", authenticateToken, async (req, res) => {
   try {
     const { cardio, pushups, situps, savings, noAlcohol, date } = req.body;
 
-    // Parse the date input and normalize to midnight in the local time zone
-    const logDate = new Date(date);
+    // Validate the date
+    if (!date) {
+      console.error("Date is missing from the request body.");
+      return res.status(400).send("Date is required.");
+    }
+
+    // Parse and normalize the date
+    const logDate = new Date(date + "T00:00:00");
+    if (isNaN(logDate)) {
+      console.error("Invalid date provided:", date);
+      return res.status(400).send("Invalid date format.");
+    }
     logDate.setHours(0, 0, 0, 0);
 
-    // Check for existing log for the user on this date
+    console.log("Checking for log on date:", logDate);
+
+    // Debugging: Fetch all logs for the user and print their dates
+    const allLogs = await Dailylog.find({ userId: req.user._id });
+    console.log(
+      "All stored logs for user:",
+      allLogs.map((log) => log.date)
+    );
+
+    // Use a strict date comparison
     const existingLog = await Dailylog.findOne({
       userId: req.user._id,
       date: logDate,
     });
 
     if (existingLog) {
-      // Aggregate values if a log already exists
+      console.log("Existing log found. Aggregating values...");
+      // Aggregate values into the existing log
       existingLog.cardio += parseInt(cardio, 10) || 0;
       existingLog.pushups += parseInt(pushups, 10) || 0;
       existingLog.situps += parseInt(situps, 10) || 0;
@@ -31,7 +60,9 @@ router.post("/new", authenticateToken, async (req, res) => {
       existingLog.noAlcohol = existingLog.noAlcohol && noAlcohol === "on";
 
       await existingLog.save();
+      console.log("Log updated successfully.");
     } else {
+      console.log("No existing log found. Creating a new one...");
       // Create a new log
       const newLog = new Dailylog({
         userId: req.user._id,
@@ -44,11 +75,13 @@ router.post("/new", authenticateToken, async (req, res) => {
       });
 
       await newLog.save();
+      console.log("New log created successfully.");
     }
 
-    res.redirect("/dailylog");
+    // Redirect to the dashboard after successful log entry
+    res.redirect("/dashboard");
   } catch (err) {
-    console.error("Error adding daily log:", err);
+    console.error("Error adding daily log:", err.message);
     res.status(500).send("Server Error");
   }
 });

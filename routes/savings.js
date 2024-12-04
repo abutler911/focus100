@@ -31,22 +31,37 @@ router.get("/", authenticateToken, async (req, res) => {
 
 // POST: Update Savings Entry
 router.post("/update", authenticateToken, async (req, res) => {
-  const { day, amount } = req.body;
+  const { day, amount, action } = req.body;
 
   try {
     // Validate day and amount
-    if (!day || !amount || day < 1 || day > 100 || amount < 1) {
+    if (!day || day < 1 || day > 100 || !amount || amount < 1) {
       return res.status(400).json({ success: false, message: "Invalid data" });
     }
 
-    // Update or create a savings entry
-    const updatedEntry = await Savings.findOneAndUpdate(
-      { userId: req.user._id, day },
-      { amount },
-      { upsert: true, new: true }
+    if (action === "add") {
+      // Add savings entry if it doesn't already exist
+      const existingEntry = await Savings.findOne({
+        userId: req.user._id,
+        day,
+      });
+
+      if (!existingEntry) {
+        await Savings.create({ userId: req.user._id, day, amount });
+      }
+    } else if (action === "remove") {
+      // Remove savings entry
+      await Savings.deleteOne({ userId: req.user._id, day });
+    }
+
+    // Recalculate the total saved
+    const savingsEntries = await Savings.find({ userId: req.user._id });
+    const totalSaved = savingsEntries.reduce(
+      (sum, entry) => sum + entry.amount,
+      0
     );
 
-    res.status(200).json({ success: true, updatedEntry });
+    res.status(200).json({ success: true, totalSaved });
   } catch (err) {
     console.error("Error updating savings entry:", err);
     res.status(500).send("Server Error");

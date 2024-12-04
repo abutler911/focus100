@@ -84,42 +84,59 @@
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="cardioGoal" class="form-label"
-              >Cardio Goal (minutes):</label
+              >Cardio Goal (minutes/day):</label
             >
             <input
               type="number"
               id="cardioGoal"
               name="cardioGoal"
-              class="form-control"
+              class="form-control daily-goal"
               value="<%= user.goals.cardio %>"
-              placeholder="Enter cardio goal"
+              placeholder="Enter daily cardio goal"
             />
+            <small class="form-text text-muted">
+              Total for 100 days:
+              <span id="totalCardioGoal"><%= user.goals.cardio * 100 %></span>
+              minutes
+            </small>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="pushupsGoal" class="form-label">Pushups Goal:</label>
+            <label for="pushupsGoal" class="form-label"
+              >Pushups Goal (per day):</label
+            >
             <input
               type="number"
               id="pushupsGoal"
               name="pushupsGoal"
-              class="form-control"
+              class="form-control daily-goal"
               value="<%= user.goals.pushups %>"
-              placeholder="Enter pushups goal"
+              placeholder="Enter daily pushups goal"
             />
+            <small class="form-text text-muted">
+              Total for 100 days:
+              <span id="totalPushupsGoal"><%= user.goals.pushups * 100 %></span>
+            </small>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="situpsGoal" class="form-label">Situps Goal:</label>
+            <label for="situpsGoal" class="form-label"
+              >Situps Goal (per day):</label
+            >
             <input
               type="number"
               id="situpsGoal"
               name="situpsGoal"
-              class="form-control"
+              class="form-control daily-goal"
               value="<%= user.goals.situps %>"
-              placeholder="Enter situps goal"
+              placeholder="Enter daily situps goal"
             />
+            <small class="form-text text-muted">
+              Total for 100 days:
+              <span id="totalSitupsGoal"><%= user.goals.situps * 100 %></span>
+            </small>
           </div>
           <div class="col-md-6 mb-3">
             <label for="savingsGoal" class="form-label"
-              >Savings Goal ($):</label
+              >Savings Goal (total for 100 days):</label
             >
             <input
               type="number"
@@ -127,7 +144,7 @@
               name="savingsGoal"
               class="form-control"
               value="<%= user.goals.savings %>"
-              placeholder="Enter savings goal"
+              placeholder="Enter total savings goal"
             />
           </div>
           <div class="col-12 mb-3">

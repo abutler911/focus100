@@ -46,7 +46,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
           pushups: 0,
           situps: 0,
           savings: 0,
-          noAlcohol: false,
+          noAlcohol: 0,
         },
         goals: user.goals || {},
         message: "You haven't added any logs yet. Start tracking today!",
@@ -76,18 +76,37 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
     );
     totals.savings += savingsTotal;
 
-    // Calculate progress toward goals
-    const goals = user.goals || {};
+    // Calculate 100-day total goals
+    const totalGoals = {
+      cardio: (user.goals.cardio || 0) * 100,
+      pushups: (user.goals.pushups || 0) * 100,
+      situps: (user.goals.situps || 0) * 100,
+      savings: user.goals.savings || 0, // Already a total goal
+      noAlcohol: 100, // 100 days no alcohol goal
+    };
+
+    // Calculate progress toward 100-day goals
     const progress = {
-      cardio: Math.min((totals.cardio / (goals.cardio || 1)) * 100, 100), // Avoid division by 0
-      pushups: Math.min((totals.pushups / (goals.pushups || 1)) * 100, 100),
-      situps: Math.min((totals.situps / (goals.situps || 1)) * 100, 100),
-      savings: Math.min((totals.savings / (goals.savings || 1)) * 100, 100),
-      noAlcohol: goals.noAlcohol
-        ? totals.noAlcohol === logs.length
-          ? 100
-          : 0
-        : null, // All days alcohol-free
+      cardio:
+        totalGoals.cardio > 0
+          ? Math.min((totals.cardio / totalGoals.cardio) * 100, 100)
+          : 0,
+      pushups:
+        totalGoals.pushups > 0
+          ? Math.min((totals.pushups / totalGoals.pushups) * 100, 100)
+          : 0,
+      situps:
+        totalGoals.situps > 0
+          ? Math.min((totals.situps / totalGoals.situps) * 100, 100)
+          : 0,
+      savings:
+        totalGoals.savings > 0
+          ? Math.min((totals.savings / totalGoals.savings) * 100, 100)
+          : 0,
+      noAlcohol:
+        totalGoals.noAlcohol > 0
+          ? (totals.noAlcohol / totalGoals.noAlcohol) * 100
+          : 0,
     };
 
     res.render("dashboard", {
@@ -95,7 +114,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       user,
       totals,
       progress,
-      goals,
+      totalGoals, // Pass 100-day goals to the template
       currentDate: currentDate.toDateString(),
       days,
       isPast,

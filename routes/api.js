@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const isAdmin = require("../middleware/isAdmin");
 const router = express.Router();
+const Dailylog = require("../models/Dailylog");
 
 // Register User
 router.post("/register", async (req, res) => {
@@ -104,18 +105,34 @@ router.post("/login", async (req, res) => {
     );
 
     // Set token as a cookie
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
 
-    // Redirect to dashboard
-    res.redirect("/dashboard");
+    // Check if user has logged today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to midnight in local time
+
+    console.log("Normalized today's date:", today);
+
+    const existingLog = await Dailylog.findOne({
+      userId: user._id,
+      date: today,
+    });
+
+    console.log("Existing log:", existingLog); // Debugging check
+
+    if (existingLog) {
+      return res.redirect("/dashboard");
+    } else {
+      return res.redirect("/dailylog/new");
+    }
   } catch (error) {
+    console.error("Error during login:", error.message, error.stack);
     res.status(500).json({ error: "Login failed. Please try again later." });
   }
-});
-
-router.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/");
 });
 
 module.exports = router;

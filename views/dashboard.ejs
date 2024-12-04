@@ -45,7 +45,7 @@
       <h2 class="text-center mb-4">Your 100-Day Goals</h2>
       <div class="row">
         <div class="col-md-6">
-          <p>Cardio: <%= totals.cardio %> / <%= user.goals.cardio %> minutes</p>
+          <p>Cardio: <%= totals.cardio %> / <%= totalGoals.cardio %> minutes</p>
           <div class="progress mb-3">
             <div
               class="progress-bar"
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <p>Pushups: <%= totals.pushups %> / <%= user.goals.pushups %></p>
+          <p>Pushups: <%= totals.pushups %> / <%= totalGoals.pushups %></p>
           <div class="progress mb-3">
             <div
               class="progress-bar bg-success"
@@ -75,12 +75,12 @@
           </div>
         </div>
         <div class="col-md-6">
-          <p>Situps: <%= totals.situps %> / <%= user.goals.situps %></p>
+          <p>Situps: <%= totals.situps %> / <%= totalGoals.situps %></p>
           <div class="progress mb-3">
             <div
               class="progress-bar bg-danger"
               role="progressbar"
-              style="width: <%= progress.situps %>%%"
+              style="width: <%= progress.situps %>%"
               aria-valuenow="<%= progress.situps %>"
               aria-valuemin="0"
               aria-valuemax="100"
@@ -90,7 +90,7 @@
           </div>
         </div>
         <div class="col-md-6">
-          <p>Savings: $<%= totals.savings %> / $<%= user.goals.savings %></p>
+          <p>Savings: $<%= totals.savings %> / $<%= totalGoals.savings %></p>
           <div class="progress mb-3">
             <div
               class="progress-bar bg-warning"

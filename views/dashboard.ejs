@@ -2,7 +2,7 @@
   <!-- Welcome Section -->
   <header class="text-center mb-5">
     <h1 class="display-4">Welcome, <%= user.firstname %>!</h1>
-    <p class="lead">Today's Date: <strong><%= currentDate %></strong></p>
+    <p class="lead"><strong><%= currentDate %></strong></p>
     <p class="text-muted">
       <% if (isPast) { %> Days Since January 1, 2025:
       <strong><%= days %></strong> <% } else { %> Days Until January 1, 2025:

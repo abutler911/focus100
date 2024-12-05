@@ -4,6 +4,7 @@ const authenticateToken = require("../middleware/auth");
 const Dailylog = require("../models/Dailylog");
 const User = require("../models/User");
 const Savings = require("../models/Savings");
+const Notification = require("../models/Notification");
 
 router.get("/", (req, res) => {
   res.render("splash", {
@@ -27,22 +28,20 @@ router.get("/register", (req, res) => {
 router.get("/dashboard", authenticateToken, async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId); // Fetch the user to access their goals
+    const user = await User.findById(userId);
     const logs = await Dailylog.find({ userId });
-    const savingsEntries = await Savings.find({ userId }); // Fetch savings entries
+    const savingsEntries = await Savings.find({ userId });
+    const notifications = await Notification.find({ userId, read: false });
 
-    // Calculate the current date and days since/remaining until January 1, 2025
     const startDate = new Date("2025-01-01");
     const currentDate = new Date();
     const daysDifference = Math.floor(
       (currentDate - startDate) / (1000 * 60 * 60 * 24)
     );
 
-    // Determine whether it's days until or days since
     const isPast = daysDifference >= 0;
-    const days = Math.abs(daysDifference); // Always use absolute value
+    const days = Math.abs(daysDifference);
 
-    // Calculate total goals from user goals
     const userGoals = user.goals || {};
     const totalGoals = {
       cardio: (userGoals.cardio || 0) * 100,
@@ -51,7 +50,6 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       savings: userGoals.savings || 0,
     };
 
-    // If no logs or savings entries, show default totals and message
     if (logs.length === 0 && savingsEntries.length === 0) {
       return res.render("dashboard", {
         title: "Dashboard - Focus100",
@@ -69,10 +67,11 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
         currentDate: currentDate.toDateString(),
         days,
         isPast,
+        activePage: "dashboard",
+        notifications,
       });
     }
 
-    // Calculate totals from logs
     const totals = logs.reduce(
       (acc, log) => {
         acc.cardio += log.cardio;
@@ -85,14 +84,12 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 }
     );
 
-    // Add totals from savings entries
     const savingsTotal = savingsEntries.reduce(
       (sum, entry) => sum + entry.amount,
       0
     );
     totals.savings += savingsTotal;
 
-    // Calculate progress toward goals
     const progress = {
       cardio: Math.min((totals.cardio / totalGoals.cardio) * 100, 100),
       pushups: Math.min((totals.pushups / totalGoals.pushups) * 100, 100),
@@ -113,6 +110,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       days,
       isPast,
       activePage: "dashboard",
+      notifications,
     });
   } catch (err) {
     console.error("Error fetching dashboard data:", err);

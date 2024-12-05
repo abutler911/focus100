@@ -132,3 +132,74 @@
   text-decoration: underline;
   color: #0056b3;
 }
+
+.create-post-container {
+  padding-top: 2rem;
+}
+
+.create-post-container .card {
+  border-radius: 10px;
+  border: none;
+  overflow: hidden;
+}
+
+.create-post-container .card-header {
+  background: linear-gradient(45deg, #0d6efd, #0056b3);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.create-post-container .form-label {
+  color: #495057;
+  font-size: 1.1rem;
+}
+
+.create-post-container .form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+}
+
+.create-post-container .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+}
+
+.create-post-container .btn {
+  background: linear-gradient(45deg, #0d6efd, #0056b3);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}
+
+.create-post-container .btn:hover {
+  background: linear-gradient(45deg, #0056b3, #0d6efd);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.4);
+}
+
+.create-post-container .btn:focus {
+  outline: none;
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.6);
+}
+
+.mention-dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  max-height: 150px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+}
+
+.mention-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.mention-item:hover {
+  background-color: #f0f0f0;
+}

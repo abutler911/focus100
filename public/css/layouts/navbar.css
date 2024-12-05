@@ -40,3 +40,25 @@
 .navbar .shadow-sm {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.navbar .dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.navbar .badge {
+  font-size: 0.8rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.badge {
+  font-size: 0.75rem;
+  margin-left: 5px;
+}

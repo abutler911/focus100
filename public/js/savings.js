@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Attach click event to each day button
-  document.querySelectorAll(".day").forEach((dayElement) => {
+  const dayButtons = document.querySelectorAll(".day");
+  const totalSavedElement = document.querySelector("#total-saved-display");
+  const progressBar = document.getElementById("progress-bar");
+  const progressPercentage = document.getElementById("progress-percentage");
+  const resetButton = document.getElementById("confirm-reset-button");
+
+  if (
+    !dayButtons.length ||
+    !totalSavedElement ||
+    !progressBar ||
+    !progressPercentage ||
+    !resetButton
+  ) {
+    console.error("Some required elements are missing on the page.");
+    return;
+  }
+
+  dayButtons.forEach((dayElement) => {
     dayElement.addEventListener("click", async () => {
       const day = parseInt(dayElement.dataset.day, 10);
       const amount = day;
@@ -29,22 +45,12 @@ document.addEventListener("DOMContentLoaded", () => {
             dayElement.innerHTML = `$${day}`;
           }
 
-          const totalSavedElement = document.querySelector(
-            "#total-saved-display"
-          );
-          if (totalSavedElement) {
-            totalSavedElement.textContent = `Total Saved: $${totalSaved} out of $5050`;
-          }
+          totalSavedElement.textContent = `Total Saved: $${totalSaved} out of $5050`;
 
-          // Update the progress bar
           const progress = (totalSaved / 5050) * 100;
-          document.getElementById("progress-bar").style.width = `${progress}%`;
-          document
-            .getElementById("progress-bar")
-            .setAttribute("aria-valuenow", progress.toFixed(0));
-          document.getElementById(
-            "progress-percentage"
-          ).textContent = `${progress.toFixed(0)}%`;
+          progressBar.style.width = `${progress}%`;
+          progressBar.setAttribute("aria-valuenow", progress.toFixed(0));
+          progressPercentage.textContent = `${progress.toFixed(0)}%`;
         } else {
           console.error("Failed to update savings entry.");
         }
@@ -54,27 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Reset button functionality with confirmation prompt
-  document
-    .getElementById("confirm-reset-button")
-    .addEventListener("click", async () => {
-      try {
-        const response = await fetch("/savings/reset", {
-          method: "POST",
-        });
+  resetButton.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/savings/reset", {
+        method: "POST",
+      });
 
-        if (response.ok) {
-          // Close the modal and reload the page
-          const resetModal = bootstrap.Modal.getInstance(
-            document.getElementById("resetModal")
-          );
-          resetModal.hide();
-          location.reload();
-        } else {
-          console.error("Failed to reset savings data.");
-        }
-      } catch (err) {
-        console.error("Error resetting savings data:", err);
+      if (response.ok) {
+        const resetModal = bootstrap.Modal.getInstance(
+          document.getElementById("resetModal")
+        );
+        resetModal.hide();
+        location.reload();
+      } else {
+        console.error("Failed to reset savings data.");
       }
-    });
+    } catch (err) {
+      console.error("Error resetting savings data:", err);
+    }
+  });
 });

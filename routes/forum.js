@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const Post = require("../models/Posts");
+const User = require("../models/User");
 const authenticateToken = require("../middleware/auth");
+const Notification = require("../models/Notification");
 
 router.get("/main", async (req, res) => {
   try {
@@ -12,6 +15,7 @@ router.get("/main", async (req, res) => {
     res.render("forum/main", {
       posts,
       title: "Message Board",
+      activePage: "forum",
     });
   } catch (err) {
     console.error("Error fetching posts:", err);
@@ -21,18 +25,39 @@ router.get("/main", async (req, res) => {
 
 // Render the Create Post Form
 router.get("/new", authenticateToken, (req, res) => {
-  res.render("forum/new", { title: "Create a New Post" });
+  res.render("forum/new", { title: "Create a New Post", activePage: "forum" });
 });
 
 // Handle New Post Submission
 router.post("/new", authenticateToken, async (req, res) => {
-  const { title, content } = req.body;
   try {
+    const { title, content } = req.body;
+
+    // Extract mentions from the content (e.g., "@username")
+    const mentions =
+      content.match(/@\w+/g)?.map((mention) => mention.slice(1)) || [];
+
+    // Validate mentioned users
+    const mentionedUsers = await User.find({ username: { $in: mentions } });
+
+    // Create a new post
     const newPost = await Post.create({
       title,
       content,
       author: req.user._id,
+      mentions: mentionedUsers.map((user) => user._id),
     });
+
+    // Create notifications for mentioned users
+    for (const mentionedUser of mentionedUsers) {
+      await Notification.create({
+        userId: mentionedUser._id,
+        postId: newPost._id,
+        mentioner: req.user.firstname,
+        message: `@${req.user.firstname} mentioned you in a post.`,
+      });
+    }
+
     res.redirect("/forum/main");
   } catch (err) {
     console.error("Error creating post:", err);
@@ -41,9 +66,18 @@ router.post("/new", authenticateToken, async (req, res) => {
 });
 
 // View a Specific Post
+
 router.get("/posts/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  // Validate that `id` is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    console.error("Invalid post ID:", id);
+    return res.status(400).send("Invalid Post ID");
+  }
+
   try {
-    const post = await Post.findById(req.params.id)
+    const post = await Post.findById(id)
       .populate("author", "username")
       .populate("comments.author", "username");
 
@@ -58,6 +92,7 @@ router.get("/posts/:id", authenticateToken, async (req, res) => {
       isAuthor,
       user: req.user || null,
       title: post.title,
+      activePage: "forum",
     });
   } catch (err) {
     console.error("Error fetching post:", err);
@@ -141,6 +176,27 @@ router.post("/posts/:id/delete", authenticateToken, async (req, res) => {
   } catch (err) {
     console.error("Error deleting post:", err);
     res.status(500).send("Error deleting the post. Please try again later.");
+  }
+});
+
+router.get("/search", async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ error: "Query cannot be empty." });
+    }
+
+    const users = await User.find({
+      username: { $regex: `^${query.trim()}`, $options: "i" },
+    })
+      .limit(10)
+      .select("username");
+
+    res.json(users);
+  } catch (err) {
+    console.error("Error searching users:", err.message);
+    res.status(500).json({ error: "Server Error" });
   }
 });
 

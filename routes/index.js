@@ -6,6 +6,7 @@ const User = require("../models/User");
 const Savings = require("../models/Savings");
 const Notification = require("../models/Notification");
 
+// Splash Page
 router.get("/", (req, res) => {
   res.render("splash", {
     title: "Welcome to Focus100",
@@ -14,10 +15,12 @@ router.get("/", (req, res) => {
   });
 });
 
+// Login Page
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login - Focus100", activePage: "login" });
 });
 
+// Registration Page
 router.get("/register", (req, res) => {
   res.render("register", {
     title: "Register - Focus100",
@@ -25,31 +28,44 @@ router.get("/register", (req, res) => {
   });
 });
 
+// Dashboard
 router.get("/dashboard", authenticateToken, async (req, res) => {
   try {
     const userId = req.user._id;
-    const user = await User.findById(userId);
-    const logs = await Dailylog.find({ userId });
-    const savingsEntries = await Savings.find({ userId });
-    const notifications = await Notification.find({ userId, read: false });
 
+    // Fetch user and associated data in parallel for better performance
+    const [user, logs, savingsEntries, notifications] = await Promise.all([
+      User.findById(userId),
+      Dailylog.find({ userId }),
+      Savings.find({ userId }),
+      Notification.find({ userId, read: false }),
+    ]);
+
+    if (!user) {
+      console.error(`User not found for ID: ${userId}`);
+      return res.status(404).send("User not found");
+    }
+
+    // Calculate date difference
     const startDate = new Date("2025-01-01");
     const currentDate = new Date();
     const daysDifference = Math.floor(
       (currentDate - startDate) / (1000 * 60 * 60 * 24)
     );
-
     const isPast = daysDifference >= 0;
     const days = Math.abs(daysDifference);
 
+    // Calculate user goals
     const userGoals = user.goals || {};
     const totalGoals = {
       cardio: (userGoals.cardio || 0) * 100,
       pushups: (userGoals.pushups || 0) * 100,
       situps: (userGoals.situps || 0) * 100,
       savings: userGoals.savings || 0,
+      noAlcohol: userGoals.noAlcohol || 0,
     };
 
+    // If no logs or savings entries exist
     if (logs.length === 0 && savingsEntries.length === 0) {
       return res.render("dashboard", {
         title: "Dashboard - Focus100",
@@ -72,6 +88,7 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       });
     }
 
+    // Calculate totals from logs and savings
     const totals = logs.reduce(
       (acc, log) => {
         acc.cardio += log.cardio;
@@ -84,22 +101,32 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       { cardio: 0, pushups: 0, situps: 0, savings: 0, noAlcohol: 0 }
     );
 
-    const savingsTotal = savingsEntries.reduce(
+    // Add totals from savings entries
+    totals.savings += savingsEntries.reduce(
       (sum, entry) => sum + entry.amount,
       0
     );
-    totals.savings += savingsTotal;
 
+    // Calculate progress percentages
     const progress = {
-      cardio: Math.min((totals.cardio / totalGoals.cardio) * 100, 100),
-      pushups: Math.min((totals.pushups / totalGoals.pushups) * 100, 100),
-      situps: Math.min((totals.situps / totalGoals.situps) * 100, 100),
-      savings: Math.min((totals.savings / totalGoals.savings) * 100, 100),
+      cardio: totalGoals.cardio
+        ? Math.min((totals.cardio / totalGoals.cardio) * 100, 100)
+        : 0,
+      pushups: totalGoals.pushups
+        ? Math.min((totals.pushups / totalGoals.pushups) * 100, 100)
+        : 0,
+      situps: totalGoals.situps
+        ? Math.min((totals.situps / totalGoals.situps) * 100, 100)
+        : 0,
+      savings: totalGoals.savings
+        ? Math.min((totals.savings / totalGoals.savings) * 100, 100)
+        : 0,
       noAlcohol: totalGoals.noAlcohol
-        ? (totals.noAlcohol / totalGoals.noAlcohol) * 100
-        : null,
+        ? Math.min((totals.noAlcohol / totalGoals.noAlcohol) * 100, 100)
+        : 0,
     };
 
+    // Render dashboard with calculated data
     res.render("dashboard", {
       title: "Dashboard - Focus100",
       user,
@@ -113,8 +140,8 @@ router.get("/dashboard", authenticateToken, async (req, res) => {
       notifications,
     });
   } catch (err) {
-    console.error("Error fetching dashboard data:", err);
-    res.status(500).send("Server Error");
+    console.error("Error fetching dashboard data:", err.message);
+    res.status(500).send("Server Error. Please try again later.");
   }
 });
 

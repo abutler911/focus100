@@ -1,12 +1,14 @@
 const express = require("express");
-const router = express.Router();
 const mongoose = require("mongoose");
+const { body, validationResult } = require("express-validator");
+const router = express.Router();
 const Post = require("../models/Posts");
 const User = require("../models/User");
-const authenticateToken = require("../middleware/auth");
 const Notification = require("../models/Notification");
+const authenticateToken = require("../middleware/auth");
 
-router.get("/main", async (req, res) => {
+// GET: Forum Main Page (protected)
+router.get("/main", authenticateToken, async (req, res) => {
   try {
     const posts = await Post.find()
       .populate("author", "username")
@@ -16,6 +18,7 @@ router.get("/main", async (req, res) => {
       posts,
       title: "Message Board",
       activePage: "forum",
+      user: req.user,
     });
   } catch (err) {
     console.error("Error fetching posts:", err);
@@ -23,54 +26,66 @@ router.get("/main", async (req, res) => {
   }
 });
 
-// Render the Create Post Form
+// GET: Render the Create Post Form (protected)
 router.get("/new", authenticateToken, (req, res) => {
-  res.render("forum/new", { title: "Create a New Post", activePage: "forum" });
+  res.render("forum/new", {
+    title: "Create a New Post",
+    activePage: "forum",
+    user: req.user,
+  });
 });
 
-// Handle New Post Submission
-router.post("/new", authenticateToken, async (req, res) => {
-  try {
-    const { title, content } = req.body;
-
-    // Extract mentions from the content (e.g., "@username")
-    const mentions =
-      content.match(/@\w+/g)?.map((mention) => mention.slice(1)) || [];
-
-    // Validate mentioned users
-    const mentionedUsers = await User.find({ username: { $in: mentions } });
-
-    // Create a new post
-    const newPost = await Post.create({
-      title,
-      content,
-      author: req.user._id,
-      mentions: mentionedUsers.map((user) => user._id),
-    });
-
-    // Create notifications for mentioned users
-    for (const mentionedUser of mentionedUsers) {
-      await Notification.create({
-        userId: mentionedUser._id,
-        postId: newPost._id,
-        mentioner: req.user.firstname,
-        message: `@${req.user.firstname} mentioned you in a post.`,
-      });
+// POST: Handle New Post Submission (protected)
+router.post(
+  "/new",
+  authenticateToken,
+  [
+    body("title").notEmpty().withMessage("Title is required."),
+    body("content").notEmpty().withMessage("Content is required."),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error("Validation errors:", errors.array());
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    res.redirect("/forum/main");
-  } catch (err) {
-    console.error("Error creating post:", err);
-    res.status(500).send("Error creating the post. Please try again later.");
+    try {
+      const { title, content } = req.body;
+
+      const mentions =
+        content.match(/@\w+/g)?.map((mention) => mention.slice(1)) || [];
+
+      const mentionedUsers = await User.find({ username: { $in: mentions } });
+
+      const newPost = await Post.create({
+        title,
+        content,
+        author: req.user._id,
+        mentions: mentionedUsers.map((user) => user._id),
+      });
+
+      for (const mentionedUser of mentionedUsers) {
+        await Notification.create({
+          userId: mentionedUser._id,
+          postId: newPost._id,
+          mentioner: req.user.firstname,
+          message: `@${req.user.firstname} mentioned you in a post.`,
+        });
+      }
+
+      res.redirect("/forum/main");
+    } catch (err) {
+      console.error("Error creating post:", err);
+      res.status(500).send("Error creating the post. Please try again later.");
+    }
   }
-});
+);
 
-// View a Specific Post
-
+// GET: View a Specific Post (protected)
 router.get("/posts/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
 
-  // Validate that `id` is a valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(id)) {
     console.error("Invalid post ID:", id);
     return res.status(400).send("Invalid Post ID");
@@ -90,7 +105,7 @@ router.get("/posts/:id", authenticateToken, async (req, res) => {
     res.render("forum/post", {
       post,
       isAuthor,
-      user: req.user || null,
+      user: req.user,
       title: post.title,
       activePage: "forum",
     });
@@ -100,31 +115,40 @@ router.get("/posts/:id", authenticateToken, async (req, res) => {
   }
 });
 
-// Add a Comment to a Post
-router.post("/posts/:id/comment", authenticateToken, async (req, res) => {
-  const { content } = req.body;
-
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (!post) {
-      return res.status(404).send("Post not found");
+// POST: Add a Comment to a Post (protected)
+router.post(
+  "/posts/:id/comment",
+  authenticateToken,
+  [body("content").notEmpty().withMessage("Comment content cannot be empty.")],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error("Validation errors:", errors.array());
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    post.comments.push({
-      content,
-      author: req.user._id,
-    });
+    try {
+      const post = await Post.findById(req.params.id);
 
-    await post.save();
-    res.redirect(`/forum/posts/${post._id}`);
-  } catch (err) {
-    console.error("Error adding comment:", err);
-    res.status(500).send("Error adding the comment. Please try again later.");
+      if (!post) {
+        return res.status(404).send("Post not found");
+      }
+
+      post.comments.push({
+        content: req.body.content,
+        author: req.user._id,
+      });
+
+      await post.save();
+      res.redirect(`/forum/posts/${post._id}`);
+    } catch (err) {
+      console.error("Error adding comment:", err);
+      res.status(500).send("Error adding the comment. Please try again later.");
+    }
   }
-});
+);
 
-// Render Edit Post Form
+// GET: Render Edit Post Form (protected)
 router.get("/posts/:id/edit", authenticateToken, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -133,36 +157,48 @@ router.get("/posts/:id/edit", authenticateToken, async (req, res) => {
       return res.status(403).send("Unauthorized");
     }
 
-    res.render("forum/edit", { post, title: "Edit Post" });
+    res.render("forum/edit", { post, title: "Edit Post", user: req.user });
   } catch (err) {
     console.error("Error fetching post:", err);
     res.status(500).send("Error loading the post. Please try again later.");
   }
 });
 
-// Handle Edit Post Submission
-router.post("/posts/:id/edit", authenticateToken, async (req, res) => {
-  const { title, content } = req.body;
-
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (!post || post.author.toString() !== req.user._id) {
-      return res.status(403).send("Unauthorized");
+// POST: Handle Edit Post Submission (protected)
+router.post(
+  "/posts/:id/edit",
+  authenticateToken,
+  [
+    body("title").notEmpty().withMessage("Title is required."),
+    body("content").notEmpty().withMessage("Content is required."),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error("Validation errors:", errors.array());
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    post.title = title;
-    post.content = content;
+    try {
+      const post = await Post.findById(req.params.id);
 
-    await post.save();
-    res.redirect(`/forum/posts/${post._id}`);
-  } catch (err) {
-    console.error("Error editing post:", err);
-    res.status(500).send("Error editing the post. Please try again later.");
+      if (!post || post.author.toString() !== req.user._id) {
+        return res.status(403).send("Unauthorized");
+      }
+
+      post.title = req.body.title;
+      post.content = req.body.content;
+
+      await post.save();
+      res.redirect(`/forum/posts/${post._id}`);
+    } catch (err) {
+      console.error("Error editing post:", err);
+      res.status(500).send("Error editing the post. Please try again later.");
+    }
   }
-});
+);
 
-// Delete a Post
+// POST: Delete a Post (protected)
 router.post("/posts/:id/delete", authenticateToken, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -179,7 +215,8 @@ router.post("/posts/:id/delete", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/search", async (req, res) => {
+// GET: User Search for Mentions (protected)
+router.get("/search", authenticateToken, async (req, res) => {
   try {
     const { query } = req.query;
 

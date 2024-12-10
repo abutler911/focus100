@@ -1,12 +1,15 @@
-// routes/admin.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const isAdmin = require("../middleware/isAdmin");
 const authenticateToken = require("../middleware/auth");
+const isAdmin = require("../middleware/isAdmin");
+
+// Apply global middleware to all routes in this router
+router.use(authenticateToken);
+router.use(isAdmin);
 
 // Admin dashboard
-router.get("/", authenticateToken, isAdmin, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const pendingUsers = await User.find({ approved: false });
     const allUsers = await User.find();
@@ -24,7 +27,7 @@ router.get("/", authenticateToken, isAdmin, async (req, res) => {
 });
 
 // Approve a user
-router.post("/approve/:id", isAdmin, async (req, res) => {
+router.post("/approve/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -40,24 +43,19 @@ router.post("/approve/:id", isAdmin, async (req, res) => {
 });
 
 // Grant admin privileges
-router.post(
-  "/grant-admin/:id",
-  authenticateToken,
-  isAdmin,
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id);
-      if (!user) {
-        return res.status(404).send("User not found");
-      }
-      user.isAdmin = true;
-      await user.save();
-      res.redirect("/admin");
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Server error");
+router.post("/grant-admin/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
+    user.isAdmin = true;
+    await user.save();
+    res.redirect("/admin");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
   }
-);
+});
 
 module.exports = router;

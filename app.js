@@ -22,7 +22,7 @@ const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/users");
 const notificationsRoutes = require("./routes/notifications");
 
-// Init express app
+// Initialize express app
 const app = express();
 
 // Middleware
@@ -42,26 +42,30 @@ app.use(expressLayouts);
 // Set the default layout
 app.set("layout", "layout");
 
-// Add user object to all views
+// Middleware to add global variables to views
 app.use((req, res, next) => {
   res.locals.title = "Focus100";
   res.locals.user = req.user || null;
   next();
 });
 
+// Middleware to fetch notifications for authenticated users
 app.use(async (req, res, next) => {
   if (req.user) {
     try {
       const notifications = await Notification.find({
         userId: req.user._id,
         read: false,
-      });
+      }).limit(10); // Limit to 10 recent notifications for performance
       res.locals.notifications = notifications.map((notif) => ({
         postId: notif.postId,
         mentioner: notif.mentioner,
       }));
     } catch (err) {
-      console.error("Error fetching notifications:", err);
+      console.error(
+        `Error fetching notifications for user ${req.user._id}:`,
+        err
+      );
       res.locals.notifications = [];
     }
   } else {
@@ -70,8 +74,9 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Middleware to determine the active page
 app.use((req, res, next) => {
-  const path = req.path.split("/")[1] || "dashboard"; // Get first segment of path
+  const path = req.path.split("/")[1] || "dashboard";
   res.locals.activePage = path; // Set activePage based on the route
   console.log(`Active Page: ${res.locals.activePage}`);
   next();
@@ -88,17 +93,15 @@ app.use("/admin", adminRoutes);
 app.use("/users", userRoutes);
 app.use("/notifications", notificationsRoutes);
 
-// 404 Error Middleware
+// 404 Error Handler
 app.use((req, res, next) => {
-  const error = new Error("Page not found");
-  error.status = 404;
-  next(error);
+  res.status(404).render("404", { title: "Page Not Found" });
 });
 
-// Error handler
+// General Error Handler
 app.use(errorHandler);
 
-// Connect to DB
+// Connect to Database
 const connectDB = require("./config/db");
 connectDB();
 

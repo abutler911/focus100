@@ -1,81 +1,77 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const rateLimit = require("express-rate-limit");
+const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
-const isAdmin = require("../middleware/isAdmin");
-const router = express.Router();
 const Dailylog = require("../models/Dailylog");
 
-// Register User
-router.post("/register", async (req, res) => {
-  const {
-    firstname,
-    lastname,
-    email,
-    username,
-    password,
-    confirmPassword,
-    state,
-    country,
-  } = req.body;
+const router = express.Router();
 
-  // Validation
-  const errors = [];
-  if (
-    !firstname ||
-    !lastname ||
-    !email ||
-    !username ||
-    !password ||
-    !state ||
-    !country
-  ) {
-    errors.push("All fields are required.");
-  }
-  if (password !== confirmPassword) {
-    errors.push("Passwords do not match.");
-  }
-  if (!/\S+@\S+\.\S+/.test(email)) {
-    errors.push("Invalid email format.");
-  }
-  if (errors.length > 0) {
-    return res.status(400).json({ errors });
-  }
-
-  try {
-    // Check if email or username already exists
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: "Email or username already exists" });
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    const newUser = new User({
-      firstname,
-      lastname,
-      email,
-      username,
-      password: hashedPassword,
-      state,
-      country,
-    });
-
-    await newUser.save();
-    res.redirect("/login");
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Registration failed. Please try again later." });
-  }
+// Rate limiter for login
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 requests per window
+  message: "Too many login attempts. Please try again later.",
 });
 
+// Register User
+router.post(
+  "/register",
+  [
+    body("email").isEmail().withMessage("Invalid email format."),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters."),
+    body("confirmPassword").custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords do not match.");
+      }
+      return true;
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { firstname, lastname, email, username, password, state, country } =
+      req.body;
+
+    try {
+      const existingUser = await User.findOne({
+        $or: [{ email }, { username }],
+      });
+      if (existingUser) {
+        return res
+          .status(400)
+          .json({ error: "Email or username already exists" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({
+        firstname,
+        lastname,
+        email,
+        username,
+        password: hashedPassword,
+        state,
+        country,
+      });
+
+      await newUser.save();
+      res.redirect("/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ error: "Registration failed. Please try again." });
+    }
+  }
+);
+
 // Login User
-router.post("/login", async (req, res) => {
+router.post("/login", loginLimiter, async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -85,44 +81,35 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    // Find user by username
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ error: "Invalid username or password." });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid username or password." });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { _id: user._id, firstname: user.firstname, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    // Set token as a cookie
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "strict",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
     });
 
-    // Check if user has logged today
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to midnight in local time
-
-    console.log("Normalized today's date:", today);
+    today.setHours(0, 0, 0, 0);
 
     const existingLog = await Dailylog.findOne({
       userId: user._id,
       date: today,
     });
-
-    console.log("Existing log:", existingLog); // Debugging check
 
     if (existingLog) {
       return res.redirect("/dashboard");
@@ -130,8 +117,23 @@ router.post("/login", async (req, res) => {
       return res.redirect("/dailylog/new");
     }
   } catch (error) {
-    console.error("Error during login:", error.message, error.stack);
+    console.error("Login error:", error);
     res.status(500).json({ error: "Login failed. Please try again later." });
+  }
+});
+
+// Logout User
+router.get("/logout", (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+    res.redirect("/login"); // Redirect to the login page or homepage
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ error: "Logout failed. Please try again later." });
   }
 });
 

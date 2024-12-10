@@ -41,3 +41,39 @@
   justify-content: center;
   align-items: center;
 }
+
+/* style.css */
+
+.error-page {
+  text-align: center;
+  padding: 100px 20px;
+  color: #333;
+}
+
+.error-page h1 {
+  font-size: 6rem;
+  color: #e74c3c; /* Red color */
+}
+
+.error-page h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.error-page p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.error-page .btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #3498db;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.error-page .btn:hover {
+  background-color: #2980b9;
+}

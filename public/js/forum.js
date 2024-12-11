@@ -107,3 +107,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const voteButtons = document.querySelectorAll(".vote-btn");
+
+  voteButtons.forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      const isUpvote = button.classList.contains("upvote");
+      const postId = button.closest(".forum-card").dataset.postId;
+
+      if (!postId) {
+        console.error("Post ID not found for voting");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `/forum/posts/${postId}/${isUpvote ? "upvote" : "downvote"}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to vote");
+
+        const { upvotes, downvotes } = await response.json();
+
+        const votesCountElement =
+          button.parentNode.querySelector(".votes-count");
+        if (isUpvote) {
+          votesCountElement.textContent = upvotes; // Show updated upvotes
+        } else {
+          votesCountElement.textContent = downvotes; // Show updated downvotes
+        }
+      } catch (error) {
+        console.error("Error updating vote:", error.message);
+      }
+    });
+  });
+});

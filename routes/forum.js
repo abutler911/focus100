@@ -26,6 +26,55 @@ router.get("/main", authenticateToken, async (req, res) => {
   }
 });
 
+// Upvote a post
+// Upvote a post
+router.post("/posts/:id/upvote", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid Post ID" });
+  }
+
+  try {
+    const post = await Post.findById(id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    post.upvotes = (post.upvotes || 0) + 1;
+    await post.save();
+
+    res.status(200).json({ upvotes: post.upvotes, downvotes: post.downvotes });
+    console.log(`Upvote: Post ID - ${req.params.id}`);
+    console.log(`Updated Upvotes: ${post.upvotes}`);
+  } catch (err) {
+    console.error("Error handling upvote:", err);
+    res.status(500).json({ error: "Failed to upvote" });
+  }
+});
+
+// Downvote a post
+router.post("/posts/:id/downvote", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid Post ID" });
+  }
+
+  try {
+    const post = await Post.findById(id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    post.downvotes = (post.downvotes || 0) + 1;
+    await post.save();
+
+    res.status(200).json({ upvotes: post.upvotes, downvotes: post.downvotes });
+    console.log(`Upvote: Post ID - ${req.params.id}`);
+    console.log(`Updated Upvotes: ${post.upvotes}`);
+  } catch (err) {
+    console.error("Error handling downvote:", err);
+    res.status(500).json({ error: "Failed to downvote" });
+  }
+});
+
 // GET: Render the Create Post Form (protected)
 router.get("/new", authenticateToken, (req, res) => {
   res.render("forum/new", {

@@ -3,7 +3,7 @@
   max-width: 900px;
   margin: auto;
   padding: 20px;
-  background-color: #fefefe;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -12,78 +12,81 @@
 .forum-title {
   font-family: "Playfair Display", serif;
   font-size: 2.5rem;
+  font-weight: 700;
   color: #2c6e49;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 /* Forum Card */
 .forum-card {
   display: flex;
+  flex-direction: column;
   border: 1px solid #e6e6e6;
   background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
   transition: box-shadow 0.2s, transform 0.2s;
+  margin-bottom: 20px;
 }
 
 .forum-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
+/* Voting Section */
 .forum-votes {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #f9f9f9;
-  border-right: 1px solid #e6e6e6;
   padding: 10px;
-  min-width: 60px;
+  border-right: 1px solid #e6e6e6;
 }
 
 .vote-btn {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
   color: #888;
   transition: color 0.2s, transform 0.2s;
 }
 
 .vote-btn:hover {
-  color: #1579ab;
-  transform: scale(1.2); /* Slight zoom effect on hover */
-}
-
-.vote-btn:focus {
-  outline: none;
+  transform: scale(1.2);
 }
 
 .vote-btn.upvote:hover {
-  color: #2c6e49; /* Dark green for thumbs up */
+  color: #2c6e49; /* Green for upvote */
 }
 
 .vote-btn.downvote:hover {
-  color: #d9534f; /* Red for thumbs down */
+  color: #d9534f; /* Red for downvote */
 }
 
 .votes-count {
   font-size: 1.2rem;
   font-weight: bold;
-  margin: 5px 0;
   color: #2c6e49;
+  margin: 5px 0;
 }
 
 /* Post Content */
 .forum-content {
   flex-grow: 1;
-  padding: 10px;
+  padding: 15px;
 }
 
 .forum-post-title {
-  font-family: "Playfair Display", serif;
-  font-size: 1.25rem;
-  margin-bottom: 5px;
-  color: #1579ab;
+  font-family: "Noto Sans", serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2c6e49;
 }
 
 .forum-post-link {
@@ -93,39 +96,47 @@
 
 .forum-post-link:hover {
   text-decoration: underline;
+  color: #0056b3;
 }
 
 .forum-post-meta {
-  font-size: 0.8rem;
+  font-family: "Oxanium", sans-serif;
+  font-size: 0.7rem;
   color: #6c757d;
   margin-bottom: 10px;
 }
 
 .forum-post-summary {
   font-size: 1rem;
-  color: #333;
-  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #495057;
 }
 
 .forum-post-info {
   font-size: 0.9rem;
   color: #888;
+  margin-top: 10px;
 }
 
 .comments-count,
 .likes-count {
+  font-weight: 600;
+  color: #343a40;
   margin-right: 10px;
 }
 
-/* Empty Forum */
+/* Empty Forum State */
 .forum-empty {
   font-size: 1.2rem;
   color: #6c757d;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .forum-create-link {
   font-weight: bold;
   color: #1579ab;
+  text-decoration: none;
 }
 
 .forum-create-link:hover {
@@ -133,20 +144,26 @@
   color: #0056b3;
 }
 
+/* Create Post Container */
 .create-post-container {
-  padding-top: 2rem;
+  margin-top: 2rem;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .create-post-container .card {
-  border-radius: 10px;
   border: none;
-  overflow: hidden;
 }
 
 .create-post-container .card-header {
   background: linear-gradient(45deg, #0d6efd, #0056b3);
+  color: white;
   font-size: 1.5rem;
   font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 10px 10px 0 0;
 }
 
 .create-post-container .form-label {
@@ -183,6 +200,7 @@
   box-shadow: 0 4px 8px rgba(13, 110, 253, 0.6);
 }
 
+/* Mention Dropdown */
 .mention-dropdown {
   list-style: none;
   margin: 0;
@@ -202,4 +220,27 @@
 
 .mention-item:hover {
   background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .forum-title {
+    font-size: 2rem;
+  }
+
+  .forum-post-title {
+    font-size: 1.25rem;
+  }
+
+  .forum-post-summary {
+    font-size: 0.9rem;
+  }
+
+  .forum-votes {
+    min-width: 50px;
+  }
+
+  .create-post-container {
+    padding: 15px;
+  }
 }

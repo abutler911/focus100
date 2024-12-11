@@ -36,13 +36,15 @@
   <main>
     <section id="saving-challenge">
       <div class="days-container">
-        <% for (let i = 1; i <= 100; i++) { %> <% const savedEntry =
+        <% for (let i = 1; i <= 100; i++) { const savedEntry =
         savingsEntries.find(entry => entry.day === i); %>
         <button
           class="day btn <%= savedEntry ? 'btn-success' : 'btn-light' %>"
           data-day="<%= i %>"
         >
-          $<%= i %> <%= savedEntry ? `(Saved)` : "" %>
+          <% if (savedEntry) { %> $<%= savedEntry.amount %>
+          <i class="fas fa-star" style="color: gold"></i>
+          <% } else { %> $<%= i %> <% } %>
         </button>
         <% } %>
       </div>

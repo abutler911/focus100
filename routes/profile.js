@@ -83,7 +83,13 @@ router.post(
       .optional()
       .isFloat({ min: 0 })
       .withMessage("Savings goal must be a non-negative number."),
-    body("noAlcoholGoal").optional().isBoolean(),
+    body("noAlcoholGoal")
+      .optional()
+      .custom((value, { req }) => {
+        // Treat the checkbox as true if it is "on", or false otherwise
+        req.body.noAlcoholGoal = value === "on";
+        return true; // Always return true for custom validators
+      }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -110,7 +116,7 @@ router.post(
             pushups: parseInt(pushupsGoal, 10) || 0,
             situps: parseInt(situpsGoal, 10) || 0,
             savings: parseFloat(savingsGoal) || 0,
-            noAlcohol: noAlcoholGoal === "on",
+            noAlcohol: noAlcoholGoal, // Already transformed into boolean above
           },
         },
         { new: true, runValidators: true }

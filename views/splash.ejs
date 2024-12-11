@@ -20,7 +20,11 @@
           Track your progress and achieve your goals <br />
           in the first 100 days of 2025!
         </p>
-        <div class="button-group">
+        <div id="quote-container" class="mt-4">
+          <p id="quote" class="blockquote fst-italic"></p>
+          <p id="author" class="blockquote-footer"></p>
+        </div>
+        <div class="button-group mt-4">
           <a href="/login" class="custom-btn btn-lg">Login</a>
           <a href="/register" class="custom-btn btn-lg">Register</a>
         </div>
@@ -31,5 +35,20 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      fetch("/api/quote")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Quote:", data.q, "-", data.a);
+          document.getElementById("quote").textContent = `"${data.q}"`;
+          document.getElementById("author").textContent = `${data.a}`;
+        })
+        .catch((error) => console.error("Error fetching quote:", error));
+    </script>
   </body>
 </html>

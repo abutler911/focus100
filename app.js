@@ -7,6 +7,7 @@ const expressLayouts = require("express-ejs-layouts");
 const errorHandler = require("./middleware/errorHandler");
 const methodOverride = require("method-override");
 const Notification = require("./models/Notification");
+const axios = require("axios");
 
 // Load environment variables
 dotenv.config();

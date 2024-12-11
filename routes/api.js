@@ -5,7 +5,7 @@ const rateLimit = require("express-rate-limit");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const Dailylog = require("../models/Dailylog");
-
+const axios = require("axios");
 const router = express.Router();
 
 // Rate limiter for login
@@ -13,6 +13,16 @@ const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10, // Limit each IP to 10 requests per window
   message: "Too many login attempts. Please try again later.",
+});
+
+router.get("/quote", async (req, res) => {
+  try {
+    const response = await axios.get("https://zenquotes.io/api/random");
+    res.json(response.data[0]);
+  } catch (error) {
+    console.error("Error fetching quote:", error.message);
+    res.status(500).send({ error: "Failed to fetch quote" });
+  }
 });
 
 // Register User

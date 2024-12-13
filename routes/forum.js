@@ -27,7 +27,6 @@ router.get("/main", authenticateToken, async (req, res) => {
 });
 
 // Upvote a post
-// Upvote a post
 router.post("/posts/:id/upvote", authenticateToken, async (req, res) => {
   const { id } = req.params;
 

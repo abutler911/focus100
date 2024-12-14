@@ -5,6 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressPercentage = document.getElementById("progress-percentage");
   const resetButton = document.getElementById("confirm-reset-button");
 
+  console.log({
+    dayButtons: document.querySelectorAll(".day"),
+    totalSavedElement: document.querySelector("#total-saved-display"),
+    progressBar: document.getElementById("progress-bar"),
+    progressPercentage: document.getElementById("progress-percentage"),
+    resetButton: document.getElementById("confirm-reset-button"),
+  });
+
   if (
     !dayButtons.length ||
     !totalSavedElement ||

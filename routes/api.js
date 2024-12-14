@@ -81,6 +81,7 @@ router.post(
         password: hashedPassword,
         state,
         country,
+        approved: false,
       });
 
       await newUser.save();
@@ -92,7 +93,6 @@ router.post(
   }
 );
 
-// Login User
 router.post("/login", loginLimiter, async (req, res) => {
   const { username, password } = req.body;
 
@@ -106,6 +106,12 @@ router.post("/login", loginLimiter, async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(400).json({ error: "Invalid username or password." });
+    }
+
+    if (!user.approved) {
+      return res.render("pendingApproval", {
+        title: "Pending Approval",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);

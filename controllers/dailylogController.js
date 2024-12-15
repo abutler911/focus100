@@ -61,6 +61,7 @@ const createOrUpdateLog = async (req, res, next) => {
       await log.save();
     }
 
+    req.flash("success_msg", "Daily log saved successfully. You're a badass!");
     res.redirect("/dashboard");
   } catch (err) {
     next(err);

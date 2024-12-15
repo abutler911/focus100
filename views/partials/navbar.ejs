@@ -1,3 +1,4 @@
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Focus100</a>
@@ -48,42 +49,6 @@
           </a>
         </li>
         <% } %>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="notificationsDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="bi bi-bell"></i> Notifications <% if (notifications &&
-            notifications.length > 0) { %>
-            <span class="badge bg-danger"><%= notifications.length %></span>
-            <% } %>
-          </a>
-          <ul
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="notificationsDropdown"
-          >
-            <% if (notifications && notifications.length > 0) { %> <%
-            notifications.forEach((notification) => { %>
-            <li>
-              <a
-                class="dropdown-item"
-                href="/forum/posts/<%= notification.postId %>"
-              >
-                <strong>@<%= notification.mentioner %></strong> mentioned you in
-                a post
-              </a>
-            </li>
-            <% }); %> <% } else { %>
-            <li>
-              <span class="dropdown-item text-muted">No new notifications</span>
-            </li>
-            <% } %>
-          </ul>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="/api/logout">
             <i class="bi bi-box-arrow-right"></i> Logout
@@ -93,3 +58,34 @@
     </div>
   </div>
 </nav>
+
+<!-- Flash Messages -->
+<div class="flash-messages-container">
+  <% if (success_msg && success_msg.length > 0) { %>
+  <div
+    class="alert alert-success alert-dismissible fade show flash-message"
+    role="alert"
+  >
+    <span><%= success_msg[0] %></span>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %> <% if (error_msg && error_msg.length > 0) { %>
+  <div
+    class="alert alert-danger alert-dismissible fade show flash-message"
+    role="alert"
+  >
+    <span><%= error_msg[0] %></span>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  <% } %>
+</div>

@@ -1,0 +1,66 @@
+.alert {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Smaller, inline flash messages */
+.alert-sm {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.flash-messages-container {
+  position: relative;
+  z-index: 1050;
+  width: 60%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Flexbox layout for the message */
+.flash-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+/* Styling for dismiss button */
+.flash-message .btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  color: #ff0000;
+  padding: 0px;
+  margin-left: 25px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+  border: 3px solid #ff0000;
+}
+
+/* Hover effect for dismiss button */
+.flash-message .btn-close:hover {
+  color: #dc3545;
+  transform: scale(1.1); /* Slightly enlarge */
+}
+
+/* Focus effect for dismiss button */
+.flash-message .btn-close:focus {
+  outline: none;
+  color: #0d6efd; /* Blue for accessibility */
+  transform: scale(1.1);
+}

@@ -1,0 +1,83 @@
+.container {
+  max-width: 1200px;
+}
+
+.summary-grid {
+  margin-top: 30px;
+}
+
+.day-box {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+  min-height: 80px;
+  position: relative;
+}
+
+.day-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-cardio {
+  background-color: #007bff; /* Blue */
+}
+
+.dot-pushups {
+  background-color: #28a745; /* Green */
+}
+
+.dot-situps {
+  background-color: #dc3545; /* Red */
+}
+
+.dot-savings {
+  background-color: #ffc107; /* Yellow */
+}
+
+/* Legend Styling */
+.legend {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+.legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-cardio {
+  background-color: #007bff; /* Blue */
+}
+
+.dot-pushups {
+  background-color: #28a745; /* Green */
+}
+
+.dot-situps {
+  background-color: #dc3545; /* Red */
+}
+
+.dot-savings {
+  background-color: #ffc107; /* Yellow */
+}

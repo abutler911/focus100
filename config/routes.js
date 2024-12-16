@@ -7,6 +7,7 @@ const savingsRoutes = require("../routes/savings");
 const adminRoutes = require("../routes/admin");
 const userRoutes = require("../routes/users");
 const notificationsRoutes = require("../routes/notifications");
+const summaryRoutes = require("../routes/summary");
 
 module.exports = (app) => {
   app.use("/", indexRoutes);
@@ -18,4 +19,5 @@ module.exports = (app) => {
   app.use("/admin", adminRoutes);
   app.use("/users", userRoutes);
   app.use("/notifications", notificationsRoutes);
+  app.use("/summary", summaryRoutes);
 };

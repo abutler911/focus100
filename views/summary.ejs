@@ -1,0 +1,52 @@
+<div class="container mt-5">
+  <header class="text-center mb-4">
+    <h1 class="display-4">100-Day Summary</h1>
+    <p class="text-muted">Track your progress at a glance!</p>
+  </header>
+
+  <!-- Legend Section -->
+  <section class="legend mb-4">
+    <div class="d-flex justify-content-center gap-4 flex-wrap">
+      <div class="d-flex align-items-center">
+        <span class="dot dot-cardio me-2"></span>
+        <span>Cardio</span>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="dot dot-pushups me-2"></span>
+        <span>Pushups</span>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="dot dot-situps me-2"></span>
+        <span>Situps</span>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="dot dot-savings me-2"></span>
+        <span>Savings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid Section -->
+  <section class="summary-grid">
+    <div class="row row-cols-10 g-2">
+      <% for (let i = 1; i <= 100; i++) { %>
+      <div class="col">
+        <div class="day-box">
+          <p class="day-label">Day <%= i %></p>
+          <div class="dots">
+            <% if (days[i - 1]?.cardio) { %>
+            <span class="dot dot-cardio"></span>
+            <% } %> <% if (days[i - 1]?.pushups) { %>
+            <span class="dot dot-pushups"></span>
+            <% } %> <% if (days[i - 1]?.situps) { %>
+            <span class="dot dot-situps"></span>
+            <% } %> <% if (days[i - 1]?.savings) { %>
+            <span class="dot dot-savings"></span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </section>
+</div>

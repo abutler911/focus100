@@ -37,7 +37,6 @@ router.get("/quote", async (req, res) => {
   }
 });
 
-// Register User
 router.post(
   "/register",
   [
@@ -85,6 +84,30 @@ router.post(
       });
 
       await newUser.save();
+
+      // Send registration email
+      const subject = "Welcome to Focus100!";
+      const text = `Hi ${firstname},\n\nThank you for registering for Focus100! Get ready to achieve your goals.\n\nBest regards,\nThe Focus100 Team`;
+      const html = `<p>Hi <strong>${firstname}</strong>,</p><p>Thank you for registering for Focus100! Get ready to achieve your goals.</p><p>Best regards,<br>The Focus100 Team</p>`;
+
+      const msg = {
+        to: email,
+        from: "support@focus-100.com", // Replace with your verified sender email
+        subject,
+        text,
+        html,
+      };
+
+      try {
+        await sgMail.send(msg);
+        console.log(`Welcome email sent to ${email}`);
+      } catch (error) {
+        console.error(
+          "Error sending welcome email:",
+          error.response?.body || error.message
+        );
+      }
+
       res.redirect("/login");
     } catch (error) {
       console.error("Registration error:", error);
